@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Learning Path | Tasks</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --css-purple: #264de4;
+            --css-dark-purple: #1e3bb3;
+            --css-black: #000000;
+            --css-white: #ffffff;
+            --bg-color: #f9f9f9;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --header-bg: #264de4;
+        }
+
+        .dark-theme {
+            --bg-color: #121212;
+            --text-color: #f0f0f0;
+            --card-bg: #1e1e1e;
+            --card-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
+            --header-bg: #1e3bb3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .logo img {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            animation: slideUp 1s ease-in-out;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .theme-toggle i {
+            font-size: 1.2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .task-section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .task-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--css-purple);
+        }
+
+        .section-icon {
+            background-color: var(--css-purple);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--css-purple);
+        }
+
+        .section-info {
+            font-size: 0.9rem;
+            margin-left: auto;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .task-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .task-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .task-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--css-purple);
+        }
+
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(38, 77, 228, 0.2);
+        }
+
+        .task-number {
+            font-size: 0.8rem;
+            color: var(--css-purple);
+            margin-bottom: 5px;
+        }
+
+        .task-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .task-description {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .code-example {
+            background-color: rgba(38, 77, 228, 0.1);
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: var(--css-purple);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: rgba(38, 77, 228, 0.2);
+            margin-top: 20px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--css-purple);
+            border-radius: 3px;
+            width: 0;
+            transition: width 1.5s ease;
+        }
+
+        .estimate {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .estimate::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--css-purple), var(--css-dark-purple));
+        }
+
+        .estimate h2 {
+            color: var(--css-purple);
+            margin-bottom: 1rem;
+        }
+
+        .estimate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 1.5rem;
+        }
+
+        .estimate-item {
+            text-align: center;
+        }
+
+        .estimate-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--css-purple);
+            margin-bottom: 5px;
+        }
+
+        .estimate-label {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        footer {
+            background-color: var(--header-bg);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .task-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .estimate-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .section-info {
+                margin-left: 0;
+                margin-top: 5px;
+            }
+            
+            .section-icon {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button class="theme-toggle" id="theme-toggle">
+            <i class="fas fa-moon"></i>
+        </button>
+        <div class="logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968242.png" alt="CSS Logo">
+            <h1>CSS Learning Path</h1>
+        </div>
+        <p class="subtitle">Master CSS3 with a structured learning approach</p>
+    </header>
+
+    <div class="container">
+        <div class="intro">
+            <h2>Complete CSS Learning Tasks</h2>
+            <p>This comprehensive learning path will guide you from beginner to advanced CSS concepts through practical tasks. Follow the structured approach to build a solid foundation in CSS3.</p>
+        </div>
+
+        <!-- Beginner Section -->
+        <div class="task-section" id="beginner">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-baby"></i>
+                </div>
+                <h2 class="section-title">Beginner</h2>
+                <div class="section-info">1–10 tasks | ~3–5 days</div>
+            </div>
+            
+            <div class="task-cards">
+                <div class="task-card">
+                    <div class="task-number">Task 1</div>
+                    <h3 class="task-title">Understand CSS Syntax</h3>
+                    <p class="task-description">Learn the basic structure of CSS rules including selectors, properties, and values.</p>
+                    <div class="code-example">p {<br>  color: blue;<br>  font-size: 16px;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 2</div>
+                    <h3 class="task-title">Apply Inline CSS</h3>
+                    <p class="task-description">Style HTML elements using inline CSS with the style attribute.</p>
+                    <div class="code-example"><p style="color: red; font-size: 18px;">Text</p></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 3</div>
+                    <h3 class="task-title">Use Internal CSS</h3>
+                    <p class="task-description">Implement CSS within the head section using the style tag.</p>
+                    <div class="code-example">
+  <style>
+    h1 {
+      color: whitesmoke;
+    }
+  </style>
+</div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 4</div>
+                    <h3 class="task-title">Link External CSS</h3>
+                    <p class="task-description">Connect an external CSS file to an HTML document using the link tag.</p>
+                    <div class="code-example"><link rel="stylesheet" href="styles.css"></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 5</div>
+                    <h3 class="task-title">Style Text</h3>
+                    <p class="task-description">Apply text styling properties like font-family, font-size, and text-align.</p>
+                    <div class="code-example">p {<br>  font-family: Arial;<br>  font-size: 14px;<br>  text-align: center;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 6</div>
+                    <h3 class="task-title">Use Colors and Backgrounds</h3>
+                    <p class="task-description">Apply color and background properties including hex, RGB, and images.</p>
+                    <div class="code-example">div {<br>  background-color: #264de4;<br>  color: #ffffff;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 7</div>
+                    <h3 class="task-title">Style Boxes</h3>
+                    <p class="task-description">Use margin, padding, border, and box-sizing for layout control.</p>
+                    <div class="code-example">div {<br>  margin: 10px;<br>  padding: 15px;<br>  border: 1px solid black;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 8</div>
+                    <h3 class="task-title">Understand Selectors</h3>
+                    <p class="task-description">Learn element, class, ID, and attribute selectors for targeting elements.</p>
+                    <div class="code-example">.class {<br>  color: blue;<br>}<br>#id {<br>  font-weight: bold;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 9</div>
+                    <h3 class="task-title">Use Pseudo-classes</h3>
+                    <p class="task-description">Style specific parts of elements with ::before and ::after.</p>
+                    <div class="code-example">.element::before {<br>  content: "★";<br>  color: #264de4;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 10</div>
+                    <h3 class="task-title">Style Lists and Links</h3>
+                    <p class="task-description">Customize the appearance of lists and links with CSS properties.</p>
+                    <div class="code-example">ul {<br>  list-style-type: square;<br>}<br>a {<br>  text-decoration: none;<br>  color: #264de4;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Intermediate Section -->
+        <div class="task-section" id="intermediate">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h2 class="section-title">Intermediate</h2>
+                <div class="section-info">11–20 tasks | ~5–7 days</div>
+            </div>
+            
+            <div class="task-cards">
+                <div class="task-card">
+                    <div class="task-number">Task 11</div>
+                    <h3 class="task-title">Use Flexbox</h3>
+                    <p class="task-description">Create flexible layouts using CSS Flexbox for alignment and spacing.</p>
+                    <div class="code-example">.container {<br>  display: flex;<br>  justify-content: space-between;<br>  align-items: center;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 12</div>
+                    <h3 class="task-title">Implement CSS Grid</h3>
+                    <p class="task-description">Build complex layouts using CSS Grid for two-dimensional designs.</p>
+                    <div class="code-example">.grid {<br>  display: grid;<br>  grid-template-columns: repeat(3, 1fr);<br>  gap: 20px;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 13</div>
+                    <h3 class="task-title">Apply Positioning</h3>
+                    <p class="task-description">Use position properties (relative, absolute, fixed, sticky) for layout control.</p>
+                    <div class="code-example">.element {<br>  position: absolute;<br>  top: 10px;<br>  left: 20px;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 14</div>
+                    <h3 class="task-title">Create Responsive Designs</h3>
+                    <p class="task-description">Use media queries to make layouts adapt to different screen sizes.</p>
+                    <div class="code-example">@media (max-width: 768px) {<br>  .container {<br>    flex-direction: column;<br>  }<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 15</div>
+                    <h3 class="task-title">Use CSS Transitions</h3>
+                    <p class="task-description">Add smooth transitions for property changes like color and size.</p>
+                    <div class="code-example">.button {<br>  transition: background-color 0.3s ease;<br>}<br>.button:hover {<br>  background-color: #1e3bb3;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 16</div>
+                    <h3 class="task-title">Implement Animations</h3>
+                    <p class="task-description">Create custom animations using @keyframes for dynamic effects.</p>
+                    <div class="code-example">@keyframes fadeIn {<br>  from { opacity: 0; }<br>  to { opacity: 1; }<br>}<br>.element {<br>  animation: fadeIn 1s ease-in;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 17</div>
+                    <h3 class="task-title">Style Forms</h3>
+                    <p class="task-description">Enhance form elements with custom styles for inputs, buttons, and labels.</p>
+                    <div class="code-example">input {<br>  border: 1px solid #264de4;<br>  padding: 8px;<br>}<br>button {<br>  background-color: #264de4;<br>  color: white;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 18</div>
+                    <h3 class="task-title">Use Pseudo-elements</h3>
+                    <p class="task-description">Style specific parts of elements with ::before and ::after.</p>
+                    <div class="code-example">.element::before {<br>  content: "★";<br>  color: #264de4;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 19</div>
+                    <h3 class="task-title">Apply CSS Variables</h3>
+                    <p class="task-description">Use custom properties for reusable and maintainable styles.</p>
+                    <div class="code-example">:root {<br>  --primary-color: #264de4;<br>}<br>.element {<br>  color: var(--primary-color);<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 20</div>
+                    <h3 class="task-title">Style Navigation Menus</h3>
+                    <p class="task-description">Create responsive navigation bars with hover effects and dropdowns.</p>
+                    <div class="code-example">nav ul {<br>  display: flex;<br>}<br>nav a:hover {<br>  background-color: #1e3bb3;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="100"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Advanced Section -->
+        <div class="task-section" id="advanced">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h2 class="section-title">Advanced</h2>
+                <div class="section-info">21–30 tasks | ~7–10 days</div>
+            </div>
+            
+            <div class="task-cards">
+                <div class="task-card">
+                    <div class="task-number">Task 21</div>
+                    <h3 class="task-title">Use Advanced Selectors</h3>
+                    <p class="task-description">Apply combinators, attribute selectors, and nth-child for precise targeting.</p>
+                    <div class="code-example">div > p {<br>  color: #264de4;<br>}<br>p:nth-child(odd) {<br>  background-color: #f0f0f0;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="90"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 22</div>
+                    <h3 class="task-title">Implement CSS Preprocessors</h3>
+                    <p class="task-description">Use Sass/SCSS for variables, nesting, and mixins to enhance CSS.</p>
+                    <div class="code-example">$primary: #264de4;<br>.button {<br>  background-color: $primary;<br>  &:hover {<br>    background-color: darken($primary, 10%);<br>  }<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="80"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 23</div>
+                    <h3 class="task-title">Create CSS Frameworks</h3>
+                    <p class="task-description">Build a reusable CSS framework with classes for layouts and components.</p>
+                    <div class="code-example">.btn {<br>  padding: 10px 20px;<br>  background-color: #264de4;<br>}<br>.grid-col-3 {<br>  width: 33.33%;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="75"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 24</div>
+                    <h3 class="task-title">Optimize CSS Performance</h3>
+                    <p class="task-description">Minify CSS, reduce reflows, and use efficient selectors for better performance.</p>
+                    <div class="code-example">/* Avoid deep nesting */<br>.container .item {<br>  display: block;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="70"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 25</div>
+                    <h3 class="task-title">Use CSS Filters</h3>
+                    <p class="task-description">Apply visual effects like blur, grayscale, and brightness to elements.</p>
+                    <div class="code-example">img {<br>  filter: grayscale(50%);<br>}<br>img:hover {<br>  filter: none;<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="70"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 26</div>
+                    <h3 class="task-title">Create 3D Transforms</h3>
+                    <p class="task-description">Use transform properties for 3D effects like rotateX and perspective.</p>
+                    <div class="code-example">.card {<br>  transform: perspective(500px) rotateY(45deg);<br>}<br>.card:hover {<br>  transform: perspective(500px) rotateY(0deg);<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="65"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 27</div>
+                    <h3 class="task-title">Implement CSS Clip-path</h3>
+                    <p class="task-description">Create custom shapes and cutouts using clip-path for unique designs.</p>
+                    <div class="code-example">.element {<br>  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="60"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 28</div>
+                    <h3 class="task-title">Use CSS Custom Properties Dynamically</h3>
+                    <p class="task-description">Manipulate CSS variables with JavaScript for dynamic theming.</p>
+                    <div class="code-example">document.documentElement.style.setProperty('--primary-color', '#1e3bb3');</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="50"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 29</div>
+                    <h3 class="task-title">Create Responsive Typography</h3>
+                    <p class="task-description">Use vw, rem, and em units for scalable and responsive typography.</p>
+                    <div class="code-example">h1 {<br>  font-size: clamp(2rem, 5vw, 3rem);<br>}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="45"></div>
+                    </div>
+                </div>
+                
+                <div class="task-card">
+                    <div class="task-number">Task 30</div>
+                    <h3 class="task-title">Final Project: Build a Styled Portfolio</h3>
+                    <p class="task-description">Apply all learned concepts to create a fully styled portfolio or blog site using CSS.</p>
+                    <div class="code-example">Project Structure:<br>- styles.css<br>- layout.css<br>- components.css<br>- responsive.css</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-width="40"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Time Estimate Section -->
+        <div class="estimate">
+            <h2>Time Estimate to Learn CSS3 Well</h2>
+            <p>A realistic timeline for mastering CSS based on daily practice sessions.</p>
+            
+            <div class="estimate-grid">
+                <div class="estimate-item">
+                    <div class="estimate-value">7-10</div>
+                    <div class="estimate-label">Days for Beginner to Intermediate</div>
+                </div>
+                
+                <div class="estimate-item">
+                    <div class="estimate-value">15-20</div>
+                    <div class="estimate-label">Days for Complete Learning</div>
+                </div>
+                
+                <div class="estimate-item">
+                    <div class="estimate-value">~1</div>
+                    <div class="estimate-label">Month with Hands-on Projects</div>
+                </div>
+                
+                <div class="estimate-item">
+                    <div class="estimate-value">1-2</div>
+                    <div class="estimate-label">Hours of Daily Practice</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <p>CSS Learning Path | Master CSS3 from Beginner to Advanced</p>
+            <div class="footer-links">
+                <a href='/'>home</a>
+                <a href='/css_index'>css</a>
+                <a href='/resources'>Resources</a>
+                <a href='/compiler'>Playground</a>
+                <a href="#">Tasks</a>
+                <a href='/none'>None</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            
+            if (document.body.classList.contains('dark-theme')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+        
+        // Animation for task sections
+        const taskSections = document.querySelectorAll('.task-section');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Animate progress bars inside visible sections
+                    const progressBars = entry.target.querySelectorAll('.progress-fill');
+                    progressBars.forEach(bar => {
+                        setTimeout(() => {
+                            bar.style.width = bar.getAttribute('data-width') + '%';
+                        }, 300);
+                    });
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        taskSections.forEach(section => {
+            observer.observe(section);
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add hover effect to task cards
+        const taskCards = document.querySelectorAll('.task-card');
+        taskCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px)';
+                card.style.boxShadow = '0 8px 16px rgba(38, 77, 228, 0.2)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'var(--card-shadow)';
+            });
+        });
+        
+        // Check system preference for dark mode
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark-theme');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+        
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (e.matches) {
+                document.body.classList.add('dark-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                document.body.classList.remove('dark-theme');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+    </script>
+</body>
+</html>
