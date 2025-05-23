@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS Properties Index</title>
+  <meta name="description" content="A comprehensive reference for CSS properties" />
+  <meta name="author" content="CSS Properties Index" />
+
+  <meta property="og:title" content="CSS Properties Index" />
+  <meta property="og:description" content="A comprehensive reference for CSS properties" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@css_properties" />
+  <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #264de4; /* CSS logo blue */
+      --primary-hover: #2965f1; /* CSS logo lighter blue */
+      --secondary: #f1f5f9;
+      --text: #334155;
+      --text-light: #64748b;
+      --background: #f8fafc;
+      --background-gradient-from: #f1f5f9;
+      --background-gradient-to: #e2e8f0;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+      --radius: 0.5rem;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --animation-duration: 0.3s;
+      --theme-transition: all 0.5s ease;
+    }
+
+    .dark-theme {
+      --primary: #ff9800; /* CSS logo orange */
+      --primary-hover: #f57c00; /* CSS logo darker orange */
+      --secondary: #334155;
+      --text: #f1f5f9;
+      --text-light: #cbd5e1;
+      --background: #0f172a;
+      --background-gradient-from: #1e293b;
+      --background-gradient-to: #0f172a;
+      --card-bg: #1e293b;
+      --border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: var(--theme-transition);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: linear-gradient(to bottom, var(--background-gradient-from), var(--background-gradient-to));
+      min-height: 100vh;
+      line-height: 1.6;
+      transition: var(--theme-transition);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1.5rem;
+}
+
+header {
+  background-color: var(--card-bg);
+  box-shadow: var(--shadow);
+  padding: 1.5rem 0;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .header-content {
+    flex-direction: row;
+  }
+}
+
+.back-button {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius);
+  transition: background-color 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.back-button:hover {
+  background-color: var(--secondary);
+}
+
+.back-button svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--primary-hover));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+        text-align: left;
+      }
+    }
+
+    .subtitle {
+      color: var(--text-light);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .subtitle {
+        text-align: left;
+      }
+    }
+
+    .search-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background-color: var(--card-bg);
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+      transition: all var(--animation-duration) ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(38, 77, 228, 0.3);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-light);
+    }
+
+    .clear-search {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      z-index: 100;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(30deg);
+    }
+
+    .theme-toggle svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text);
+      fill: none;
+      stroke-width: 2;
+      transition: var(--theme-transition);
+    }
+
+    .category-filter {
+      margin: 1.5rem 0;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 0.5rem;
+      white-space: nowrap;
+    }
+
+    .filter-button {
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background-color: var(--card-bg);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-transform: capitalize;
+      transition: all var(--animation-duration) ease;
+      color: var(--text);
+    }
+
+    .filter-button:hover {
+      background-color: var(--secondary);
+    }
+
+    .filter-button.active {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .property-card {
+      background-color: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color var(--theme-transition);
+      cursor: pointer;
+      animation: fadeIn 0.5s ease-out forwards;
+      opacity: 0;
+    }
+
+    .property-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .property-card-header {
+      height: 0.5rem;
+      width: 100%;
+    }
+
+    .property-card-content {
+      padding: 1.5rem 1.5rem 1rem;
+    }
+
+    .property-card-footer {
+      padding: 0 1.5rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .property-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .property-description {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .property-badge {
+      background-color: transparent;
+      border: 1px solid currentColor;
+      color: inherit;
+      border-radius: 1rem;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .property-badge:hover {
+      opacity: 0.8;
+    }
+
+    .property-type {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+
+    .empty-results {
+      text-align: center;
+      padding: 2rem;
+      background-color: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .empty-title {
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .empty-message {
+      color: var(--text-light);
+    }
+
+    footer {
+      background-color: var(--card-bg);
+      box-shadow: inset 0 1px 0 var(--border);
+      padding: 1.5rem 0;
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .footer-text {
+      color: var(--text-light);
+      font-size: 0.875rem;
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      padding: 1rem 1.5rem;
+      background-color: var(--card-bg);
+      color: var(--text);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 2000;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-success {
+      border-left: 4px solid #10b981;
+    }
+
+    /* Category Colors */
+    .layout-header { background-color: #3b82f6; }
+    .typography-header { background-color: #8b5cf6; }
+    .visual-header { background-color: #10b981; }
+    .animation-header { background-color: #f59e0b; }
+    .transform-header { background-color: #ec4899; }
+    .box-model-header { background-color: #06b6d4; }
+    .positioning-header { background-color: #4f46e5; }
+    .background-header { background-color: #10b981; }
+    .border-header { background-color: #f97316; }
+    .flex-header { background-color: #ec4899; }
+    .grid-header { background-color: #eab308; }
+    .transition-header { background-color: #8b5cf6; }
+
+    .layout-text { color: #3b82f6; }
+    .typography-text { color: #8b5cf6; }
+    .visual-text { color: #10b981; }
+    .animation-text { color: #f59e0b; }
+    .transform-text { color: #ec4899; }
+    .box-model-text { color: #06b6d4; }
+    .positioning-text { color: #4f46e5; }
+    .background-text { color: #10b981; }
+    .border-text { color: #f97316; }
+    .flex-text { color: #ec4899; }
+    .grid-text { color: #eab308; }
+    .transition-text { color: #8b5cf6; }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Make property cards act as links */
+    .card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- Theme Toggle Button -->
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="theme-icon">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+
+    <!-- Header -->
+<header>
+  <div class="container">
+    <!-- Back Button -->
+    <a href="index.html" class="back-button">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Back
+    </a>
+    <div class="header-content">
+      <div>
+        <h1>CSS Properties Index</h1>
+        <p class="subtitle">A comprehensive guide to all CSS properties</p>
+      </div>
+      
+      <div class="search-container">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input 
+          type="text" 
+          id="searchInput" 
+          class="search-input" 
+          placeholder="Search properties... (Press '/' to focus)" 
+        />
+        <button id="clearSearch" class="clear-search" style="display: none;">×</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+    <!-- Category Filter -->
+    <div class="container">
+      <div class="category-filter">
+        <div id="filterButtons" class="filter-buttons">
+          <!-- Filter buttons will be inserted here by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <main>
+        <div id="propertiesGrid" class="grid">
+          <!-- Property cards will be inserted here by JavaScript -->
+        </div>
+      </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <p class="footer-text">
+          &copy; <span id="currentYear"></span> CSS Properties Index | Press '/' to focus search
+        </p>
+      </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+      <span id="toastMessage"></span>
+    </div>
+  </div>
+
+  <script>
+    // CSS Properties data
+    const cssProperties = [
+      {
+        name: "align-content",
+        category: "flex",
+        description: "Aligns a flex container's lines when there is extra space in the cross-axis."
+      },
+      {
+        name: "animation",
+        category: "flex",
+        description: "sets hoe an animation should behave."
+      },
+      {
+        name: "align-items",
+        category: "flex",
+        description: "Sets the align-self value on all direct children as a group."
+      },
+      {
+        name: "align-self",
+        category: "flex",
+        description: "Overrides a grid or flex item's align-items value."
+      },
+      {
+        name: "animation-delay",
+        category: "animation",
+        description: "Defines when the animation will start."
+      },
+      {
+        name: "animation-direction",
+        category: "animation",
+        description: "Defines whether an animation should be played forwards, backwards or in alternate cycles."
+      },
+      {
+        name: "animation-duration",
+        category: "animation",
+        description: "Defines how long an animation should take to complete one cycle."
+      },
+      {
+        name: "animation-fill-mode",
+        category: "animation",
+        description: "Defines what values are applied by the animation outside the time it is executing."
+      },
+      {
+        name: "animation-iteration-count",
+        category: "animation",
+        description: "Defines the number of times an animation should be played."
+      },
+      {
+        name: "animation-name",
+        category: "animation",
+        description: "Specifies the name of the @keyframes animation."
+      },
+      {
+        name: "animation-play-state",
+        category: "animation",
+        description: "Defines whether the animation is running or paused."
+      },
+      {
+        name: "animation-timing-function",
+        category: "animation",
+        description: "Defines how the animation progresses through the duration of each cycle."
+      },
+      {
+        name: "backface-visibility",
+        category: "transform",
+        description: "Defines whether or not the back face of an element should be visible when facing the user."
+      },
+      {
+        name: "background",
+        category: "background",
+        description: "Shorthand property for all background properties."
+      },
+      {
+        name: "background-attachment",
+        category: "background",
+        description: "Sets whether a background image scrolls with the rest of the page, or is fixed."
+      },
+      {
+        name: "background-color",
+        category: "background",
+        description: "Sets the background color of an element."
+      },
+      {
+        name: "background-image",
+        category: "background",
+        description: "Sets one or more background images for an element."
+      },
+      {
+        name: "background-position",
+        category: "background",
+        description: "Sets the starting position of a background image."
+      },
+      {
+        name: "background-repeat",
+        category: "background",
+        description: "Sets how a background image will be repeated."
+      },
+      {
+        name: "background-size",
+        category: "background",
+        description: "Specifies the size of the background images."
+      },
+      {
+        name: "border",
+        category: "border",
+        description: "Shorthand property for border-width, border-style and border-color."
+      },
+      {
+        name: "border-collapse",
+        category: "border",
+        description: "Sets whether table borders should collapse into a single border or be separated."
+      },
+      {
+        name: "border-color",
+        category: "border",
+        description: "Sets the color of an element's border."
+      },
+      {
+        name: "border-radius",
+        category: "border",
+        description: "Defines the radius of the element's corners."
+      },
+      {
+        name: "border-spacing",
+        category: "border",
+        description: "Sets the distance between the borders of adjacent cells."
+      },
+      {
+        name: "border-style",
+        category: "border",
+        description: "Sets the style of an element's border."
+      },
+      {
+        name: "border-width",
+        category: "border",
+        description: "Sets the width of an element's border."
+      },
+      {
+        name: "box-shadow",
+        category: "visual",
+        description: "Attaches one or more shadows to an element."
+      },
+      {
+        name: "box-sizing",
+        category: "box-model",
+        description: "Defines how the width and height of an element are calculated."
+      },
+      {
+        name: "caption-side",
+        category: "layout",
+        description: "Specifies the placement of a table caption."
+      },
+      {
+        name: "clear",
+        category: "layout",
+        description: "Specifies whether an element can be next to floating elements."
+      },
+      {
+        name: "color",
+        category: "typography",
+        description: "Sets the color of text."
+      },
+      {
+        name: "display",
+        category: "layout",
+        description: "Specifies how a certain HTML element should be displayed."
+      },
+      {
+        name: "empty-cells",
+        category: "layout",
+        description: "Specifies whether or not to display borders on empty cells in a table."
+      },
+      {
+        name: "flex",
+        category: "flex",
+        description: "Shorthand property for flex-grow, flex-shrink and flex-basis."
+      },
+      {
+        name: "flex-basis",
+        category: "flex",
+        description: "Specifies the initial length of a flexible item."
+      },
+      {
+        name: "flex-direction",
+        category: "flex",
+        description: "Specifies the direction of the flexible items."
+      },
+      {
+        name: "flex-flow",
+        category: "flex",
+        description: "Shorthand property for flex-direction and flex-wrap."
+      },
+      {
+        name: "flex-grow",
+        category: "flex",
+        description: "Specifies how much the item will grow relative to the rest."
+      },
+      {
+        name: "flex-shrink",
+        category: "flex",
+        description: "Specifies how the item will shrink relative to the rest."
+      },
+      {
+        name: "flex-wrap",
+        category: "flex",
+        description: "Specifies whether the flexible items should wrap or not."
+      },
+      {
+        name: "float",
+        category: "positioning",
+        description: "Specifies whether or not an element should float."
+      },
+      {
+        name: "font-family",
+        category: "typography",
+        description: "Specifies the font family for text."
+      },
+      {
+        name: "font-size",
+        category: "typography",
+        description: "Specifies the font size of text."
+      },
+      {
+        name: "font-style",
+        category: "typography",
+        description: "Specifies the font style for text."
+      },
+      {
+        name: "font-variant",
+        category: "typography",
+        description: "Specifies whether or not a text should be displayed in a small-caps font."
+      },
+      {
+        name: "font-weight",
+        category: "typography",
+        description: "Specifies the weight of a font."
+      },
+      {
+        name: "grid",
+        category: "grid",
+        description: "Shorthand property for the grid-template-rows, grid-template-columns, grid-template-areas, grid-auto-rows, grid-auto-columns, and the grid-auto-flow properties."
+      },
+      {
+        name: "grid-area",
+        category: "grid",
+        description: "Either specifies a name for the grid item, or this property is a shorthand property for the grid-row-start, grid-column-start, grid-row-end, and grid-column-end properties."
+      },
+      {
+        name: "grid-column",
+        category: "grid",
+        description: "Shorthand property for the grid-column-start and the grid-column-end properties."
+      },
+      {
+        name: "grid-column-gap",
+        category: "grid",
+        description: "Specifies the size of the gap between columns."
+      },
+      {
+        name: "grid-gap",
+        category: "grid",
+        description: "Shorthand property for the grid-row-gap and grid-column-gap properties."
+      },
+      {
+        name: "grid-row",
+        category: "grid",
+        description: "Shorthand property for the grid-row-start and the grid-row-end properties."
+      },
+      {
+        name: "grid-row-gap",
+        category: "grid",
+        description: "Specifies the size of the gap between rows."
+      },
+      {
+        name: "grid-template-areas",
+        category: "grid",
+        description: "Specifies how to display columns and rows, using named grid items."
+      },
+      {
+        name: "grid-template-columns",
+        category: "grid",
+        description: "Specifies the size of the columns, and how many columns in a grid layout."
+      },
+      {
+        name: "grid-template-rows",
+        category: "grid",
+        description: "Specifies the size of the rows in a grid layout."
+      },
+      {
+        name: "height",
+        category: "box-model",
+        description: "Sets the height of an element."
+      },
+      {
+        name: "justify-content",
+        category: "flex",
+        description: "Aligns the flexible container's items when the items do not use all available space on the main-axis."
+      },
+      {
+        name: "letter-spacing",
+        category: "typography",
+        description: "Increases or decreases the space between characters in a text."
+      },
+      {
+        name: "line-height",
+        category: "typography",
+        description: "Sets the height of a line box."
+      },
+      {
+        name: "list-style",
+        category: "visual",
+        description: "Shorthand property for list-style-type, list-style-position and list-style-image."
+      },
+      {
+        name: "list-style-image",
+        category: "visual",
+        description: "Specifies an image as the list-item marker."
+      },
+      {
+        name: "list-style-position",
+        category: "visual",
+        description: "Specifies the position of the list-item markers (bullet points)."
+      },
+      {
+        name: "list-style-type",
+        category: "visual",
+        description: "Specifies the type of list-item marker."
+      },
+      {
+        name: "margin",
+        category: "box-model",
+        description: "Sets all the margin properties in one declaration."
+      },
+      {
+        name: "margin-bottom",
+        category: "box-model",
+        description: "Sets the bottom margin of an element."
+      },
+      {
+        name: "margin-left",
+        category: "box-model",
+        description: "Sets the left margin of an element."
+      },
+      {
+        name: "margin-right",
+        category: "box-model",
+        description: "Sets the right margin of an element."
+      },
+      {
+        name: "margin-top",
+        category: "box-model",
+        description: "Sets the top margin of an element."
+      },
+      {
+        name: "max-height",
+        category: "box-model",
+        description: "Sets the maximum height of an element."
+      },
+      {
+        name: "max-width",
+        category: "box-model",
+        description: "Sets the maximum width of an element."
+      },
+      {
+        name: "min-height",
+        category: "box-model",
+        description: "Sets the minimum height of an element."
+      },
+      {
+        name: "min-width",
+        category: "box-model",
+        description: "Sets the minimum width of an element."
+      },
+      {
+        name: "order",
+        category: "flex",
+        description: "Sets the order of the flexible item, relative to the rest."
+      },
+      {
+        name: "overflow",
+        category: "visual",
+        description: "Specifies what happens if content overflows an element's box."
+      },
+      {
+        name: "overflow-x",
+        category: "visual",
+        description: "Specifies what to do with the left/right edges of the content if it overflows the element's content area."
+      },
+      {
+        name: "overflow-y",
+        category: "visual",
+        description: "Specifies what to do with the top/bottom edges of the content if it overflows the element's content area."
+      },
+      {
+        name: "padding",
+        category: "box-model",
+        description: "Shorthand property for all the padding properties."
+      },
+      {
+        name: "padding-bottom",
+        category: "box-model",
+        description: "Sets the bottom padding of an element."
+      },
+      {
+        name: "padding-left",
+        category: "box-model",
+        description: "Sets the left padding of an element."
+      },
+      {
+        name: "padding-right",
+        category: "box-model",
+        description: "Sets the right padding of an element."
+      },
+      {
+        name: "padding-top",
+        category: "box-model",
+        description: "Sets the top padding of an element."
+      },
+      {
+        name: "perspective",
+        category: "transform",
+        description: "Gives a 3D-positioned element some perspective."
+      },
+      {
+              name: "perspective-origin",
+        category: "transform",
+        description: "Defines at which position the user is looking at the 3D-positioned element."
+      },
+      {
+        name: "position",
+        category: "positioning",
+        description: "Specifies the type of positioning method used for an element."
+      },
+      {
+        name: "table-layout",
+        category: "layout",
+        description: "Defines the algorithm used to lay out table cells, rows, and columns."
+      },
+      {
+        name: "text-align",
+        category: "typography",
+        description: "Specifies the horizontal alignment of text."
+      },
+      {
+        name: "text-decoration",
+        category: "typography",
+        description: "Specifies the decoration added to text."
+      },
+      {
+        name: "text-overflow",
+        category: "typography",
+        description: "Specifies what should happen when text overflows the containing element."
+      },
+      {
+        name: "text-shadow",
+        category: "typography",
+        description: "Adds shadow to text."
+      },
+      {
+        name: "text-transform",
+        category: "typography",
+        description: "Controls the capitalization of text."
+      },
+      {
+        name: "transform",
+        category: "transform",
+        description: "Applies a 2D or 3D transformation to an element."
+      },
+      {
+        name: "transform-origin",
+        category: "transform",
+        description: "Allows you to change the position on transformed elements."
+      },
+      {
+        name: "transform-style",
+        category: "transform",
+        description: "Specifies how nested elements are rendered in 3D space."
+      },
+      {
+        name: "transition",
+        category: "transition",
+        description: "Shorthand property for transition-property, transition-duration, transition-timing-function, and transition-delay."
+      },
+      {
+        name: "transition-delay",
+        category: "transition",
+        description: "Specifies when the transition effect will start."
+      },
+      {
+        name: "transition-duration",
+        category: "transition",
+        description: "Specifies how many seconds or milliseconds a transition effect takes to complete."
+      },
+      {
+        name: "transition-property",
+        category: "transition",
+        description: "Specifies the name of the CSS property the transition effect is for."
+      },
+      {
+        name: "transition-timing-function",
+        category: "transition",
+        description: "Specifies the speed curve of the transition effect."
+      },
+      {
+        name: "visibility",
+        category: "visual",
+        description: "Specifies whether or not an element is visible."
+      },
+      {
+        name: "white-space",
+        category: "typography",
+        description: "Specifies how white-space inside an element is handled."
+      },
+      {
+        name: "width",
+        category: "box-model",
+        description: "Sets the width of an element."
+      },
+      {
+        name: "word-spacing",
+        category: "typography",
+        description: "Increases or decreases the space between words in a text."
+      },
+      {
+        name: "z-index",
+        category: "positioning",
+        description: "Sets the stack order of a positioned element."
+      }
+    ];
+
+    // DOM Elements
+    const searchInput = document.getElementById('searchInput');
+    const clearSearch = document.getElementById('clearSearch');
+    const filterButtons = document.getElementById('filterButtons');
+    const propertiesGrid = document.getElementById('propertiesGrid');
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toastMessage');
+    const currentYear = document.getElementById('currentYear');
+    const themeToggle = document.getElementById('themeToggle');
+
+    // Set current year in footer
+    currentYear.textContent = new Date().getFullYear();
+
+    // App State
+    let selectedCategory = 'all';
+    let searchTerm = '';
+    let animationDelay = 0;
+    let isDarkTheme = false;
+
+    // Initialize the app
+    function init() {
+      renderFilterButtons();
+      renderProperties();
+      setupEventListeners();
+    }
+
+    // Get unique categories from properties
+    function getUniqueCategories() {
+      const categories = new Set();
+      cssProperties.forEach(property => {
+        categories.add(property.category);
+      });
+      return ['all', ...Array.from(categories)];
+    }
+
+    // Render filter buttons
+    function renderFilterButtons() {
+      const categories = getUniqueCategories();
+      let buttonsHTML = '';
+      
+      categories.forEach(category => {
+        const isActive = category === selectedCategory;
+        buttonsHTML += `
+          <button 
+            class="filter-button ${isActive ? 'active' : ''}" 
+            data-category="${category}"
+          >
+            ${category}
+          </button>
+        `;
+      });
+      
+      filterButtons.innerHTML = buttonsHTML;
+    }
+
+    // Filter properties based on search term and category
+    function filterProperties() {
+      return cssProperties.filter(property => {
+        const matchesSearch = 
+          property.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          property.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          property.description.toLowerCase().includes(searchTerm.toLowerCase());
+        
+        const matchesCategory = selectedCategory === 'all' || property.category === selectedCategory;
+        
+        return matchesSearch && matchesCategory;
+      });
+    }
+
+    // Render properties grid
+    function renderProperties() {
+      const filteredProperties = filterProperties();
+      
+      if (filteredProperties.length === 0) {
+        propertiesGrid.innerHTML = `
+          <div class="empty-results">
+            <h3 class="empty-title">No properties found</h3>
+            <p class="empty-message">Try adjusting your search or filter</p>
+          </div>
+        `;
+        return;
+      }
+      
+      let cardsHTML = '';
+      animationDelay = 0;
+      
+      filteredProperties.forEach(property => {
+        cardsHTML += createPropertyCard(property);
+        animationDelay += 0.05;
+      });
+      
+      propertiesGrid.innerHTML = cardsHTML;
+    }
+
+    // Create a property card HTML - UPDATED TO USE DIRECT LINKS
+    function createPropertyCard(property) {
+      const delay = animationDelay;
+      return `
+        <a href="${property.name}.html" class="card-link">
+          <div class="property-card" style="animation-delay: ${delay}s" data-property="${property.name}">
+            <div class="property-card-header ${property.category}-header"></div>
+            <div class="property-card-content">
+              <h3 class="property-title">${property.name}</h3>
+              <p class="property-description">${property.description}</p>
+            </div>
+            <div class="property-card-footer">
+              <span class="property-badge ${property.category}-text">${property.category}</span>
+              <span class="property-type">CSS</span>
+            </div>
+          </div>
+        </a>
+      `;
+    }
+
+    // Show toast notification
+    function showToast(message, type = 'success') {
+      toastMessage.textContent = message;
+      toast.className = `toast toast-${type} show`;
+      
+      setTimeout(() => {
+        toast.className = toast.className.replace('show', '');
+      }, 3000);
+    }
+
+    // Toggle theme function
+    function toggleTheme() {
+      isDarkTheme = !isDarkTheme;
+      document.body.classList.toggle('dark-theme', isDarkTheme);
+      
+      // Update theme toggle icon
+      const themeIcon = themeToggle.querySelector('.theme-icon');
+      if (isDarkTheme) {
+        themeIcon.innerHTML = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+      } else {
+        themeIcon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+      }
+      
+      // Show toast notification
+      showToast(`Theme switched to ${isDarkTheme ? 'dark' : 'light'} mode`);
+      
+      // Save theme preference
+      localStorage.setItem('darkTheme', isDarkTheme);
+    }
+
+    // Load saved theme preference
+    function loadThemePreference() {
+      const savedTheme = localStorage.getItem('darkTheme');
+      if (savedTheme !== null) {
+        isDarkTheme = savedTheme === 'true';
+        document.body.classList.toggle('dark-theme', isDarkTheme);
+        
+        // Update theme toggle icon
+        const themeIcon = themeToggle.querySelector('.theme-icon');
+        if (isDarkTheme) {
+          themeIcon.innerHTML = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+        }
+      }
+    }
+
+    // Setup all event listeners
+    function setupEventListeners() {
+      // Theme toggle
+      themeToggle.addEventListener('click', toggleTheme);
+      
+      // Search input
+      searchInput.addEventListener('input', (e) => {
+        searchTerm = e.target.value;
+        clearSearch.style.display = searchTerm ? 'block' : 'none';
+        renderProperties();
+      });
+      
+      // Clear search
+      clearSearch.addEventListener('click', () => {
+        searchInput.value = '';
+        searchTerm = '';
+        clearSearch.style.display = 'none';
+        renderProperties();
+      });
+      
+      // Keyboard shortcut for search focus
+      document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && document.activeElement !== searchInput) {
+          e.preventDefault();
+          searchInput.focus();
+        }
+      });
+      
+      // Filter buttons
+      filterButtons.addEventListener('click', (e) => {
+        const button = e.target.closest('.filter-button');
+        if (!button) return;
+        
+        selectedCategory = button.dataset.category;
+        renderFilterButtons();
+        renderProperties();
+      });
+    }
+
+    // Initialize app with theme preference
+    loadThemePreference();
+    init();
+  </script>
+</body>
+</html>
