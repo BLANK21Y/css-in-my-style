@@ -1,4 +1,4 @@
-// Simple, robust initialization
+// CSS Property Explorer Application
 console.log('App script loading...');
 
 // Global variables
@@ -6,6 +6,7 @@ let categoriesContainer;
 let alphabeticalContainer;
 let searchInput;
 let allProperties = [];
+let isTransitioning = false;
 
 // Initialize everything when page loads
 function initApp() {
@@ -36,6 +37,7 @@ function initApp() {
   loadAlphabetical();
   setupSearch();
   setupNavigation();
+  setupBackButtonHandling();
   
   console.log('App initialized successfully');
 }
@@ -212,7 +214,14 @@ function setupNavigation() {
       return;
     }
     
-    // Handle tag links
+    // Handle back button clicks - NO TRANSITION
+    if (link.classList.contains('back-button')) {
+      console.log('Back button clicked - no transition');
+      // Let the default navigation happen without transition
+      return;
+    }
+    
+    // Handle tag links with transition
     if (link.classList.contains('tag-link') || link.classList.contains('tag-element')) {
       if (href && href.endsWith('.html')) {
         e.preventDefault();
@@ -222,17 +231,95 @@ function setupNavigation() {
   });
 }
 
+// Setup back button handling
+function setupBackButtonHandling() {
+  // Handle browser back/forward buttons
+  window.addEventListener('popstate', function(event) {
+    console.log('Popstate event detected');
+    resetTransition();
+    isTransitioning = false;
+  });
+  
+  // Handle page show event (when returning to page)
+  window.addEventListener('pageshow', function(event) {
+    console.log('Page show event detected');
+    resetTransition();
+    isTransitioning = false;
+  });
+  
+  // Handle visibility change
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible') {
+      console.log('Page became visible');
+      resetTransition();
+      isTransitioning = false;
+    }
+  });
+  
+  // Handle focus event (when user returns to tab)
+  window.addEventListener('focus', function() {
+    console.log('Window focused');
+    resetTransition();
+    isTransitioning = false;
+  });
+  
+  // Handle beforeunload to reset state
+  window.addEventListener('beforeunload', function() {
+    resetTransition();
+    isTransitioning = false;
+  });
+  
+  // Reset transition on page load
+  resetTransition();
+  
+  console.log('Back button handling setup complete');
+}
+
 // Navigate with transition
 function navigateWithTransition(url) {
+  if (isTransitioning) {
+    console.log('Already transitioning, ignoring click');
+    return;
+  }
+  
+  console.log('Starting transition to:', url);
+  isTransitioning = true;
+  
   const transition = document.querySelector('.page-transition');
   if (transition) {
+    // Add transitioning class to body
+    document.body.classList.add('transitioning');
     transition.classList.add('active');
+    
+    // Navigate after transition
     setTimeout(() => {
       window.location.href = url;
     }, 500);
+    
+    // Fallback timeout to reset if navigation fails
+    setTimeout(() => {
+      if (isTransitioning) {
+        console.log('Transition timeout, resetting');
+        resetTransition();
+        isTransitioning = false;
+        document.body.classList.remove('transitioning');
+      }
+    }, 2000);
   } else {
+    console.log('No transition element found, navigating directly');
     window.location.href = url;
+    isTransitioning = false;
   }
+}
+
+// Reset transition
+function resetTransition() {
+  const transition = document.querySelector('.page-transition');
+  if (transition) {
+    transition.classList.remove('active');
+    console.log('Transition reset');
+  }
+  document.body.classList.remove('transitioning');
 }
 
 // Show error
@@ -247,6 +334,29 @@ function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// Handle animations
+function setupAnimations() {
+  // Add intersection observer for fade-in animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationPlayState = 'running';
+      }
+    });
+  }, observerOptions);
+
+  // Observe all fade-in elements
+  document.querySelectorAll('.fade-in').forEach(el => {
+    el.style.animationPlayState = 'paused';
+    observer.observe(el);
+  });
+}
+
 // Initialize when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initApp);
@@ -256,6 +366,19 @@ if (document.readyState === 'loading') {
 }
 
 // Also try after a short delay as fallback
-setTimeout(initApp, 100);
+setTimeout(() => {
+  if (typeof tagData !== 'undefined' && categoriesContainer && categoriesContainer.children.length === 0) {
+    console.log('Fallback initialization triggered');
+    initApp();
+  }
+}, 100);
+
+// Additional fallback for mobile devices
+setTimeout(() => {
+  if (typeof tagData !== 'undefined' && categoriesContainer && categoriesContainer.children.length === 0) {
+    console.log('Second fallback initialization triggered');
+    initApp();
+  }
+}, 500);
 
 console.log('App script loaded');
