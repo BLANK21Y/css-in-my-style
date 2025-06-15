@@ -23,6 +23,8 @@ function initApp() {
   setupSmoothScrolling();
   setupIntersectionObserver();
   setupTagClickHandlers();
+  setupPageVisibilityHandler();
+  clearPageTransitionOnLoad();
 }
 
 /**
@@ -238,6 +240,51 @@ function createPageTransition() {
   }
 }
 
+// Clear page transition on page load
+function clearPageTransitionOnLoad() {
+  const pageTransition = document.querySelector('.page-transition');
+  if (pageTransition) {
+    pageTransition.classList.remove('active');
+  }
+}
+
+// Set up page visibility handler to clear transition on back button
+function setupPageVisibilityHandler() {
+  // Handle browser back/forward navigation
+  window.addEventListener('pageshow', function(event) {
+    const pageTransition = document.querySelector('.page-transition');
+    if (pageTransition) {
+      pageTransition.classList.remove('active');
+    }
+  });
+
+  // Handle visibility change (when user comes back to tab)
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) {
+      const pageTransition = document.querySelector('.page-transition');
+      if (pageTransition) {
+        pageTransition.classList.remove('active');
+      }
+    }
+  });
+
+  // Handle focus event (when user comes back to window)
+  window.addEventListener('focus', function() {
+    const pageTransition = document.querySelector('.page-transition');
+    if (pageTransition) {
+      pageTransition.classList.remove('active');
+    }
+  });
+
+  // Handle popstate (back/forward buttons)
+  window.addEventListener('popstate', function() {
+    const pageTransition = document.querySelector('.page-transition');
+    if (pageTransition) {
+      pageTransition.classList.remove('active');
+    }
+  });
+}
+
 // Set up property link click handlers
 function setupTagClickHandlers() {
   // Create the transition element
@@ -285,8 +332,14 @@ document.addEventListener('DOMContentLoaded', initApp);
 
 // If the page is already loaded, set up the handlers immediately
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
-  setTimeout(setupTagClickHandlers, 1);
+  setTimeout(() => {
+    setupTagClickHandlers();
+    clearPageTransitionOnLoad();
+  }, 1);
 } else {
   // Otherwise wait for DOMContentLoaded
-  document.addEventListener('DOMContentLoaded', setupTagClickHandlers);
+  document.addEventListener('DOMContentLoaded', () => {
+    setupTagClickHandlers();
+    clearPageTransitionOnLoad();
+  });
 }
