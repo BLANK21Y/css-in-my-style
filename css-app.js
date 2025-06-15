@@ -22,6 +22,7 @@ function initApp() {
   setupSearch();
   setupSmoothScrolling();
   setupIntersectionObserver();
+  setupTagClickHandlers();
 }
 
 /**
@@ -64,13 +65,11 @@ function createCategories() {
       tagItem.className = 'tag-item';
       
       const tagLink = document.createElement('a');
-      // Link to MDN documentation
-      tagLink.href = `https://developer.mozilla.org/en-US/docs/Web/CSS/${tag.name}`;
+      // Link to local HTML file
+      tagLink.href = `${tag.name.toUpperCase()}.html`;
       tagLink.className = 'tag-link';
       tagLink.dataset.tag = tag.name;
       tagLink.dataset.category = category.name;
-      tagLink.target = '_blank';
-      tagLink.rel = 'noopener noreferrer';
       tagLink.innerHTML = `<span class="tag-name">${tag.name}</span>`;
       
       tagItem.appendChild(tagLink);
@@ -104,12 +103,10 @@ function createAlphabeticalList() {
   allTags.forEach(tag => {
     const tagItem = document.createElement('li');
     const tagElement = document.createElement('a');
-    // Link to MDN documentation
-    tagElement.href = `https://developer.mozilla.org/en-US/docs/Web/CSS/${tag.name}`;
+    // Link to local HTML file
+    tagElement.href = `${tag.name.toUpperCase()}.html`;
     tagElement.className = 'tag-element';
     tagElement.dataset.tag = tag.name;
-    tagElement.target = '_blank';
-    tagElement.rel = 'noopener noreferrer';
     tagElement.innerHTML = `${tag.name}`;
     
     tagItem.appendChild(tagElement);
@@ -231,9 +228,6 @@ function debounce(func, wait) {
   };
 }
 
-// Initialize the application when DOM is fully loaded
-document.addEventListener('DOMContentLoaded', initApp);
-
 // Create page transition element
 function createPageTransition() {
   // Check if it already exists
@@ -264,22 +258,30 @@ function setupTagClickHandlers() {
 function handleTagClick(e) {
   const href = this.getAttribute('href');
   
-  // Only handle links to MDN (external links)
-  if (href && href.startsWith('https://developer.mozilla.org')) {
-    // Let the browser handle external links normally
-    return true;
+  // Only handle links to HTML files (not external links)
+  if (href && !href.startsWith('http') && href.endsWith('.html')) {
+    e.preventDefault();
+    
+    // Get the transition element
+    const pageTransition = document.querySelector('.page-transition');
+    
+    // Activate the transition
+    if (pageTransition) {
+      pageTransition.classList.add('active');
+      
+      // Navigate after transition completes
+      setTimeout(() => {
+        window.location.href = href;
+      }, 500); // Match this to your CSS transition time
+    } else {
+      // Fallback if transition element doesn't exist
+      window.location.href = href;
+    }
   }
 }
 
-// Modify your initApp function to include setupTagClickHandlers
-function initApp() {
-  createCategories();
-  createAlphabeticalList();
-  setupSearch();
-  setupSmoothScrolling();
-  setupIntersectionObserver();
-  setupTagClickHandlers(); // Add this line
-}
+// Initialize the application when DOM is fully loaded
+document.addEventListener('DOMContentLoaded', initApp);
 
 // If the page is already loaded, set up the handlers immediately
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
