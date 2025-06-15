@@ -72,6 +72,10 @@ body {
   background-color: var(--color-light);
 }
 
+body.transitioning {
+  overflow: hidden;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -134,7 +138,7 @@ section {
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 10;
+  z-index: 10001;
 }
 
 .back-button {
@@ -152,6 +156,8 @@ section {
   max-width: 80px;
   flex-shrink: 0;
   cursor: pointer;
+  position: relative;
+  z-index: 10001;
 }
 
 .back-button:hover {
@@ -227,7 +233,7 @@ section {
 
 #search-input {
   width: 100%;
-  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-5);
+  padding: var(--space-2) var(--space-2) var(--space-2) 40px;
   border-radius: var(--border-radius-md);
   border: 1px solid rgba(255, 255, 255, 0.3);
   background-color: rgba(255, 255, 255, 0.2);
@@ -320,7 +326,7 @@ section {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-4);
-  min-height: 200px; /* Ensure minimum height for debugging */
+  min-height: 100px;
 }
 
 @media (min-width: 640px) {
@@ -341,8 +347,8 @@ section {
   overflow: hidden;
   box-shadow: var(--shadow-md);
   transition: transform var(--transition-normal) ease, box-shadow var(--transition-normal) ease;
-  height: 100%;
-  min-height: 250px;
+  min-height: 200px;
+  border: 1px solid #e5e7eb;
 }
 
 .category-card:hover {
@@ -377,7 +383,7 @@ section {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-1);
 }
 
 .tag-item {
@@ -392,7 +398,8 @@ section {
   cursor: pointer;
   text-align: center;
   background-color: var(--color-light);
-  border: 1px solid transparent;
+  border: 1px solid #e5e7eb;
+  text-decoration: none;
 }
 
 .tag-link:hover {
@@ -424,6 +431,7 @@ section {
   padding: var(--space-3);
   box-shadow: var(--shadow-md);
   width: 100%;
+  border: 1px solid #e5e7eb;
 }
 
 .alphabetical-list {
@@ -451,7 +459,7 @@ section {
   text-decoration: none;
   font-size: 0.875rem;
   cursor: pointer;
-  border: 1px solid transparent;
+  border: 1px solid #e5e7eb;
 }
 
 .tag-element:hover {
@@ -464,6 +472,37 @@ section {
 .tag-element:focus {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+}
+
+/* Loading and Error States */
+.loading {
+  text-align: center;
+  padding: var(--space-4);
+  color: var(--color-secondary);
+  font-style: italic;
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-md);
+  border: 1px solid #e5e7eb;
+}
+
+.error {
+  text-align: center;
+  padding: var(--space-4);
+  color: #ef4444;
+  background-color: #fef2f2;
+  border-radius: var(--border-radius-md);
+  border: 1px solid #fecaca;
+  grid-column: 1 / -1;
+}
+
+.no-results {
+  text-align: center;
+  padding: var(--space-4);
+  color: var(--color-secondary);
+  grid-column: 1 / -1;
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-md);
+  border: 1px solid #e5e7eb;
 }
 
 /* Footer */
@@ -512,6 +551,27 @@ section {
   outline-offset: 2px;
 }
 
+/* Page Transition */
+.page-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-primary);
+  z-index: 9999;
+  transform: translateY(100%);
+  transition: transform 0.5s ease-in-out;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.page-transition.active {
+  transform: translateY(0);
+  pointer-events: all;
+  opacity: 1;
+}
+
 /* Animations */
 .fade-in {
   opacity: 0;
@@ -546,37 +606,7 @@ section {
   animation-delay: 400ms;
 }
 
-/* No Results */
-.no-results {
-  padding: var(--space-4);
-  text-align: center;
-  color: var(--color-secondary);
-  grid-column: 1 / -1;
-  background-color: var(--color-white);
-  border-radius: var(--border-radius-md);
-  box-shadow: var(--shadow-sm);
-}
-
-/* Page Transition */
-.page-transition {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--color-primary);
-  z-index: 9999;
-  transform: translateY(100%);
-  transition: transform 0.5s ease-in-out;
-  pointer-events: none;
-}
-
-.page-transition.active {
-  transform: translateY(0);
-  pointer-events: all;
-}
-
-/* Mobile responsiveness improvements */
+/* Mobile Optimizations */
 @media (max-width: 768px) {
   .categories-grid {
     grid-template-columns: 1fr;
@@ -584,7 +614,7 @@ section {
   }
   
   .category-card {
-    min-height: 200px;
+    min-height: 180px;
   }
   
   .alphabetical-list {
@@ -601,10 +631,19 @@ section {
   .tag-name {
     font-size: 0.8rem;
   }
+  
+  .tag-link {
+    padding: var(--space-1) var(--space-2);
+  }
 }
 
-/* Debug styles - remove after testing */
-.debug {
-  border: 2px solid red !important;
-  background-color: yellow !important;
+@media (max-width: 480px) {
+  .alphabetical-list {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+  
+  .tag-element {
+    font-size: 0.7rem;
+    min-height: 32px;
+  }
 }
