@@ -7,6 +7,7 @@ let alphabeticalContainer;
 let searchInput;
 let allProperties = [];
 let isTransitioning = false;
+let pageTransition;
 
 // Initialize everything when page loads
 function initApp() {
@@ -16,11 +17,13 @@ function initApp() {
   categoriesContainer = document.getElementById('categories-container');
   alphabeticalContainer = document.getElementById('alphabetical-list');
   searchInput = document.getElementById('search-input');
+  pageTransition = document.querySelector('.page-transition');
   
   console.log('DOM elements:', {
     categories: !!categoriesContainer,
     alphabetical: !!alphabeticalContainer,
-    search: !!searchInput
+    search: !!searchInput,
+    transition: !!pageTransition
   });
   
   // Check if data is loaded
@@ -37,7 +40,7 @@ function initApp() {
   loadAlphabetical();
   setupSearch();
   setupNavigation();
-  setupBackButtonHandling();
+  setupTransitionHandling();
   
   console.log('App initialized successfully');
 }
@@ -71,7 +74,7 @@ function createCategoryCard(category) {
   // Create tags HTML
   const tagsHTML = category.tags.map(tag => 
     `<li class="tag-item">
-       <a href="${tag.name.toLowerCase()}.html" class="tag-link">
+       <a href="${tag.name.toLowerCase()}.html" class="tag-link" data-tag="${tag.name}">
          <span class="tag-name">${tag.name}</span>
        </a>
      </li>`
@@ -135,6 +138,7 @@ function createAlphabeticalItem(property) {
   link.className = 'tag-element';
   link.textContent = property.name;
   link.title = `${property.description} (${property.category})`;
+  link.setAttribute('data-tag', property.name);
   
   li.appendChild(link);
   return li;
@@ -204,7 +208,7 @@ function setupNavigation() {
     
     const href = link.getAttribute('href');
     
-    // Handle anchor links
+    // Handle anchor links (smooth scrolling)
     if (href && href.startsWith('#')) {
       e.preventDefault();
       const target = document.querySelector(href);
@@ -216,63 +220,54 @@ function setupNavigation() {
     
     // Handle back button clicks - NO TRANSITION
     if (link.classList.contains('back-button')) {
-      console.log('Back button clicked - no transition');
-      // Let the default navigation happen without transition
+      console.log('Back button clicked - allowing normal navigation');
+      // Let the default navigation happen without any interference
       return;
     }
     
     // Handle tag links with transition
     if (link.classList.contains('tag-link') || link.classList.contains('tag-element')) {
-      if (href && href.endsWith('.html')) {
+      if (href && href.endsWith('.html') && !href.startsWith('http')) {
         e.preventDefault();
+        console.log('Tag clicked, starting transition to:', href);
         navigateWithTransition(href);
       }
     }
   });
 }
 
-// Setup back button handling
-function setupBackButtonHandling() {
-  // Handle browser back/forward buttons
-  window.addEventListener('popstate', function(event) {
-    console.log('Popstate event detected');
+// Setup transition handling
+function setupTransitionHandling() {
+  // Reset transition on page load/show
+  window.addEventListener('pageshow', function(event) {
+    console.log('Page show event - resetting transition');
     resetTransition();
-    isTransitioning = false;
   });
   
-  // Handle page show event (when returning to page)
-  window.addEventListener('pageshow', function(event) {
-    console.log('Page show event detected');
+  // Handle browser back/forward
+  window.addEventListener('popstate', function(event) {
+    console.log('Popstate event - resetting transition');
     resetTransition();
-    isTransitioning = false;
   });
   
   // Handle visibility change
   document.addEventListener('visibilitychange', function() {
     if (document.visibilityState === 'visible') {
-      console.log('Page became visible');
+      console.log('Page visible - resetting transition');
       resetTransition();
-      isTransitioning = false;
     }
   });
   
-  // Handle focus event (when user returns to tab)
+  // Handle focus
   window.addEventListener('focus', function() {
-    console.log('Window focused');
+    console.log('Window focused - resetting transition');
     resetTransition();
-    isTransitioning = false;
   });
   
-  // Handle beforeunload to reset state
-  window.addEventListener('beforeunload', function() {
-    resetTransition();
-    isTransitioning = false;
-  });
-  
-  // Reset transition on page load
+  // Initial reset
   resetTransition();
   
-  console.log('Back button handling setup complete');
+  console.log('Transition handling setup complete');
 }
 
 // Navigate with transition
@@ -282,44 +277,44 @@ function navigateWithTransition(url) {
     return;
   }
   
-  console.log('Starting transition to:', url);
-  isTransitioning = true;
-  
-  const transition = document.querySelector('.page-transition');
-  if (transition) {
-    // Add transitioning class to body
-    document.body.classList.add('transitioning');
-    transition.classList.add('active');
-    
-    // Navigate after transition
-    setTimeout(() => {
-      window.location.href = url;
-    }, 500);
-    
-    // Fallback timeout to reset if navigation fails
-    setTimeout(() => {
-      if (isTransitioning) {
-        console.log('Transition timeout, resetting');
-        resetTransition();
-        isTransitioning = false;
-        document.body.classList.remove('transitioning');
-      }
-    }, 2000);
-  } else {
+  if (!pageTransition) {
     console.log('No transition element found, navigating directly');
     window.location.href = url;
-    isTransitioning = false;
+    return;
   }
+  
+  console.log('Starting page transition to:', url);
+  isTransitioning = true;
+  
+  // Add transitioning class to body
+  document.body.classList.add('transitioning');
+  
+  // Activate transition
+  pageTransition.classList.add('active');
+  
+  // Navigate after transition animation
+  setTimeout(() => {
+    console.log('Navigating to:', url);
+    window.location.href = url;
+  }, 600); // Match CSS transition duration
+  
+  // Fallback timeout to reset if something goes wrong
+  setTimeout(() => {
+    if (isTransitioning) {
+      console.log('Transition timeout - resetting');
+      resetTransition();
+    }
+  }, 3000);
 }
 
 // Reset transition
 function resetTransition() {
-  const transition = document.querySelector('.page-transition');
-  if (transition) {
-    transition.classList.remove('active');
-    console.log('Transition reset');
+  if (pageTransition) {
+    pageTransition.classList.remove('active');
   }
   document.body.classList.remove('transitioning');
+  isTransitioning = false;
+  console.log('Transition state reset');
 }
 
 // Show error
@@ -365,20 +360,12 @@ if (document.readyState === 'loading') {
   initApp();
 }
 
-// Also try after a short delay as fallback
+// Fallback initialization
 setTimeout(() => {
   if (typeof tagData !== 'undefined' && categoriesContainer && categoriesContainer.children.length === 0) {
     console.log('Fallback initialization triggered');
     initApp();
   }
 }, 100);
-
-// Additional fallback for mobile devices
-setTimeout(() => {
-  if (typeof tagData !== 'undefined' && categoriesContainer && categoriesContainer.children.length === 0) {
-    console.log('Second fallback initialization triggered');
-    initApp();
-  }
-}, 500);
 
 console.log('App script loaded');
