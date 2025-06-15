@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Learning Platform</title>
+    <link rel="stylesheet" href="task-css.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button id="themeToggle" class="theme-btn">
+            <span class="theme-icon">🌙</span>
+        </button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <button id="backToHome" href="index.html" class="back-btn">← Back</button>
+            <div class="logo">
+                <span class="css-bracket">{</span>
+                <span class="css-text">CSS</span>
+                <span class="css-bracket">}</span>
+                <span class="learning-text">Learning Platform</span>
+            </div>
+            <button id="backToMain" class="back-btn" style="display: none;">← Back to Tasks</button>
+        </header>
+
+        <!-- Main Content -->
+        <main id="mainContent" class="main-content">
+            <!-- Progress Overview -->
+            <section class="progress-overview">
+                <h2>Your Learning Progress</h2>
+                <div class="progress-sections">
+                    <div class="progress-section">
+                        <h3>Beginner</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="beginnerProgress" data-progress="0"></div>
+                        </div>
+                        <span class="progress-text">0/10 completed</span>
+                    </div>
+                    <div class="progress-section">
+                        <h3>Intermediate</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="intermediateProgress" data-progress="0"></div>
+                        </div>
+                        <span class="progress-text">0/10 completed</span>
+                    </div>
+                    <div class="progress-section">
+                        <h3>Advanced</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="advancedProgress" data-progress="0"></div>
+                        </div>
+                        <span class="progress-text">0/10 completed</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tasks Sections -->
+            <section class="tasks-container">
+                <!-- Beginner Section -->
+                <div class="task-section">
+                    <h2 class="section-title">Beginner Tasks</h2>
+                    <div class="task-card" data-level="beginner" data-task="0">
+                        <div class="task-header">
+                            <h3>Text Color</h3>
+                            <span class="task-status" id="beginner-0-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Change the text color of a paragraph to blue.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="beginner" data-task="1">
+                        <div class="task-header">
+                            <h3>Font Size</h3>
+                            <span class="task-status" id="beginner-1-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Increase heading font size using font-size.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="beginner" data-task="2">
+                        <div class="task-header">
+                            <h3>Background Color</h3>
+                            <span class="task-status" id="beginner-2-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Apply a background color to a div.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="beginner" data-task="3">
+                        <div class="task-header">
+                            <h3>Margins & Padding</h3>
+                            <span class="task-status" id="beginner-3-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Add margin and padding to an element.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="beginner" data-task="4">
+                        <div class="task-header">
+                            <h3>Border Styling</h3>
+                            <span class="task-status" id="beginner-4-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Add a border with 2px solid red.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="beginner" data-task="5">
+                        <div class="task-header">
+                            <h3>Box Model</h3>
+                            <span class="task-status" id="beginner-5-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Demonstrate padding, margin, and border around an element.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="beginner" data-task="6">
+                        <div class="task-header">
+                            <h3>Class Selectors</h3>
+                            <span class="task-status" id="beginner-6-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Style a class .highlight with yellow background.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="beginner" data-task="7">
+                        <div class="task-header">
+                            <h3>ID Selectors</h3>
+                            <span class="task-status" id="beginner-7-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Style an element with id="main" with bold text.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="beginner" data-task="8">
+                        <div class="task-header">
+                            <h3>Text Alignment</h3>
+                            <span class="task-status" id="beginner-8-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Center-align a heading using text-align.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="beginner" data-task="9">
+                        <div class="task-header">
+                            <h3>Link Styling</h3>
+                            <span class="task-status" id="beginner-9-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Remove underline from a link and change its color on hover.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                </div>
+
+                <!-- Intermediate Section -->
+                <div class="task-section">
+                    <h2 class="section-title">Intermediate Tasks</h2>
+                    <div class="task-card" data-level="intermediate" data-task="0">
+                        <div class="task-header">
+                            <h3>Flexbox Layout</h3>
+                            <span class="task-status" id="intermediate-0-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Create a two-column layout using flexbox.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="intermediate" data-task="1">
+                        <div class="task-header">
+                            <h3>Grid Layout</h3>
+                            <span class="task-status" id="intermediate-1-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Create a 2x2 grid using display: grid.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="intermediate" data-task="2">
+                        <div class="task-header">
+                            <h3>Hover Effects</h3>
+                            <span class="task-status" id="intermediate-2-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Add a hover effect to a button with background change.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="intermediate" data-task="3">
+                        <div class="task-header">
+                            <h3>Transitions</h3>
+                            <span class="task-status" id="intermediate-3-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Smoothly change the background color of a box on hover.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="intermediate" data-task="4">
+                        <div class="task-header">
+                            <h3>Transform</h3>
+                            <span class="task-status" id="intermediate-4-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Rotate an image by 20 degrees on hover.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="intermediate" data-task="5">
+                        <div class="task-header">
+                            <h3>Pseudo Classes</h3>
+                            <span class="task-status" id="intermediate-5-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Use :first-child to style the first list item differently.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="intermediate" data-task="6">
+                        <div class="task-header">
+                            <h3>Pseudo Elements</h3>
+                            <span class="task-status" id="intermediate-6-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Add a custom arrow using ::before to a heading.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="intermediate" data-task="7">
+                        <div class="task-header">
+                            <h3>Media Queries</h3>
+                            <span class="task-status" id="intermediate-7-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Change the background to black on screens less than 768px.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="intermediate" data-task="8">
+                        <div class="task-header">
+                            <h3>Positioning</h3>
+                            <span class="task-status" id="intermediate-8-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Use position: absolute to place an element in the corner.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="intermediate" data-task="9">
+                        <div class="task-header">
+                            <h3>Z-index</h3>
+                            <span class="task-status" id="intermediate-9-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Use z-index to layer an image on top of text.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                </div>
+
+                <!-- Advanced Section -->
+                <div class="task-section">
+                    <h2 class="section-title">Advanced Tasks</h2>
+                    <div class="task-card" data-level="advanced" data-task="0">
+                        <div class="task-header">
+                            <h3>Animations</h3>
+                            <span class="task-status" id="advanced-0-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Create a keyframe animation to move a box left to right.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="advanced" data-task="1">
+                        <div class="task-header">
+                            <h3>Custom Fonts</h3>
+                            <span class="task-status" id="advanced-1-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Use @font-face or Google Fonts to apply a new font.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="advanced" data-task="2">
+                        <div class="task-header">
+                            <h3>Variables</h3>
+                            <span class="task-status" id="advanced-2-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Define and use CSS variables (--main-color).</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="advanced" data-task="3">
+                        <div class="task-header">
+                            <h3>Clip Path</h3>
+                            <span class="task-status" id="advanced-3-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Create a circle-shaped image using clip-path.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="advanced" data-task="4">
+                        <div class="task-header">
+                            <h3>Flex-wrap and Gap</h3>
+                            <span class="task-status" id="advanced-4-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Create a responsive flex container with wrapping.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="advanced" data-task="5">
+                        <div class="task-header">
+                            <h3>Grid Template Areas</h3>
+                            <span class="task-status" id="advanced-5-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Design a layout using named grid areas.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="advanced" data-task="6">
+                        <div class="task-header">
+                            <h3>Responsive Design</h3>
+                            <span class="task-status" id="advanced-6-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Use vw, vh, % units for fluid layouts.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="advanced" data-task="7">
+                        <div class="task-header">
+                            <h3>Dark Mode Toggle</h3>
+                            <span class="task-status" id="advanced-7-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Use data-theme and CSS variables to implement dark mode.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="advanced" data-task="8">
+                        <div class="task-header">
+                            <h3>Custom Scrollbar</h3>
+                            <span class="task-status" id="advanced-8-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Style the browser scrollbar using pseudo-elements.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                    <div class="task-card" data-level="advanced" data-task="9">
+                        <div class="task-header">
+                            <h3>Backdrop Filter</h3>
+                            <span class="task-status" id="advanced-9-status">Not Started</span>
+                        </div>
+                        <p class="task-description">Add blur effect behind a modal using backdrop-filter.</p>
+                        <button class="start-task-btn">Start Task</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Certificate Section -->
+            <section class="certificate-section">
+                <h2>Certificate Tracker</h2>
+                <div class="certificate-tracker">
+                    <div class="certificate-status" id="certificateStatus">
+                        <div class="lock-icon">🔒</div>
+                        <span>0/30 Tasks Completed</span>
+                    </div>
+                </div>
+
+                <!-- Sample Certificate Preview -->
+                <div class="certificate-preview">
+                    <h3>Sample Certificate Preview</h3>
+                    <div class="certificate-container">
+                        <img src="3.jpg" alt="Sample Certificate" class="certificate-image">
+                    </div>
+                </div>
+
+                <!-- Certificate Generator (hidden initially) -->
+                <div class="certificate-generator" id="certificateGenerator" style="display: none;">
+                    <h3>Generate Your Certificate</h3>
+                    <div class="name-input-container">
+                        <label for="userName">Enter your name:</label>
+                        <input type="text" id="userName" placeholder="John Doe" value="John Doe">
+                        <button id="generateCertificate" class="generate-btn">Generate Certificate</button>
+                    </div>
+                    
+                    <!-- Generated Certificate -->
+                    <div class="generated-certificate" id="generatedCertificate" style="display: none;">
+                        <canvas id="certificateCanvas" width="1200" height="900"></canvas>
+                        <div class="download-options">
+                            <h4>Download Certificate:</h4>
+                            <button onclick="downloadCertificate('png')" class="download-btn">PNG</button>
+                            <button onclick="downloadCertificate('jpg')" class="download-btn">JPG</button>
+                            <button onclick="downloadCertificate('jpeg')" class="download-btn">JPEG</button>
+                            <button onclick="downloadCertificate('pdf')" class="download-btn">PDF</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Editor Interface (hidden initially) -->
+        <div id="editorInterface" class="editor-interface" style="display: none;">
+            <div class="editor-container">
+                <div class="task-instructions" id="taskInstructions">
+                    <!-- Task instructions will be loaded here -->
+                </div>
+                
+                <div class="code-editor-container">
+                    <div class="editor-header">
+                        <div class="editor-tabs">
+                            <div class="tab" id="htmlTab">index.html</div>
+                            <div class="tab active" id="cssTab">style.css</div>
+                        </div>
+                        <div class="editor-actions">
+                            <button id="runCode" class="action-btn run-btn">▶ Run</button>
+                            <button id="validateCode" class="action-btn validate-btn">✓ Validate</button>
+                            <button id="backToTasks" class="action-btn back-btn">← Back</button>
+                        </div>
+                    </div>
+                    
+                    <div class="editor-content">
+                        <div class="code-editor">
+                            <textarea id="htmlEditor" placeholder="Write your HTML structure here..." style="display: none;"></textarea>
+                            <textarea id="cssEditor" placeholder="Write your CSS styles here..."></textarea>
+                        </div>
+                        
+                        <div class="preview-panel" id="previewPanel">
+                            <div class="preview-header">Live Preview</div>
+                            <iframe id="previewFrame"></iframe>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="validation-result" id="validationResult" style="display: none;">
+                    <!-- Validation results will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="tasks-css.js"></script>
+</body>
+</html>
