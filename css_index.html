@@ -59,7 +59,6 @@
     </div>
   </header>
 
-  <!-- Rest of the HTML remains unchanged -->
   <main class="container">
     <!-- Introduction Section -->
     <section class="intro-section fade-in">
@@ -89,7 +88,7 @@
       <p class="section-description">Complete list of all CSS properties arranged alphabetically.</p>
       
       <div class="alphabetical-container">
-        <ul class="tag-list" id="alphabetical-container">
+        <ul class="alphabetical-list" id="alphabetical-list">
           <!-- Alphabetical properties will be inserted by JavaScript -->
         </ul>
       </div>
@@ -104,13 +103,16 @@
           <p>© 2025 CSS in My Style, All rights reserved | Powered by Tech In My Style | Made with ❤️ by Tech In My Style |</p>
         </div>
         <div class="footer-links">
-          <a href="#">Back to Top</a>
+          <a href="#" onclick="scrollToTop()">Back to Top</a>
           <a href="#categories">Categories</a>
           <a href="#alphabetical">Alphabetical</a>
         </div>
       </div>
     </div>
   </footer>
+
+  <!-- Page Transition Element -->
+  <div class="page-transition"></div>
 
   <!-- Scripts -->
   <script src="css-tagData.js"></script>
