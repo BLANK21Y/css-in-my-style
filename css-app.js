@@ -5,27 +5,43 @@
 
 // DOM elements
 const categoriesContainer = document.getElementById('categories-container');
-const alphabeticalContainer = document.getElementById('alphabetical-container');
+const alphabeticalContainer = document.getElementById('alphabetical-list');
 const searchInput = document.getElementById('search-input');
+const pageTransition = document.querySelector('.page-transition');
 
 // State
 let allProperties = [];
+let isTransitioning = false;
 
 /**
  * Initialize the application
  */
 function init() {
+  console.log('Initializing CSS Property Explorer...');
+  
+  // Check if tagData is available
+  if (typeof tagData === 'undefined' || !tagData.categories) {
+    console.error('Tag data not loaded');
+    return;
+  }
+
   renderCategories();
   renderAlphabeticalList();
   setupSearch();
   setupAnimations();
+  setupNavigation();
+  
+  console.log('Application initialized successfully');
 }
 
 /**
  * Render category cards
  */
 function renderCategories() {
-  if (!categoriesContainer || !tagData.categories) return;
+  if (!categoriesContainer || !tagData.categories) {
+    console.error('Categories container not found or no category data');
+    return;
+  }
 
   categoriesContainer.innerHTML = '';
 
@@ -33,6 +49,8 @@ function renderCategories() {
     const categoryCard = createCategoryCard(category, index);
     categoriesContainer.appendChild(categoryCard);
   });
+
+  console.log(`Rendered ${tagData.categories.length} categories`);
 }
 
 /**
@@ -51,7 +69,7 @@ function createCategoryCard(category, index) {
       <ul class="tag-list">
         ${category.tags.map(tag => `
           <li class="tag-item">
-            <a href="${tag.name.toLowerCase()}.html" class="tag-link">
+            <a href="${tag.name.toLowerCase()}.html" class="tag-link" data-tag="${tag.name}">
               <span class="tag-name">${tag.name}</span>
             </a>
           </li>
@@ -67,7 +85,10 @@ function createCategoryCard(category, index) {
  * Render alphabetical list
  */
 function renderAlphabeticalList() {
-  if (!alphabeticalContainer || !tagData.categories) return;
+  if (!alphabeticalContainer || !tagData.categories) {
+    console.error('Alphabetical container not found or no category data');
+    return;
+  }
 
   // Collect all properties
   allProperties = [];
@@ -90,6 +111,8 @@ function renderAlphabeticalList() {
     const listItem = createAlphabeticalItem(property);
     alphabeticalContainer.appendChild(listItem);
   });
+
+  console.log(`Rendered ${allProperties.length} properties alphabetically`);
 }
 
 /**
@@ -103,6 +126,7 @@ function createAlphabeticalItem(property) {
   link.className = 'tag-element';
   link.textContent = property.name;
   link.title = `${property.description} (${property.category})`;
+  link.setAttribute('data-tag', property.name);
 
   listItem.appendChild(link);
   return listItem;
@@ -112,9 +136,13 @@ function createAlphabeticalItem(property) {
  * Setup search functionality
  */
 function setupSearch() {
-  if (!searchInput) return;
+  if (!searchInput) {
+    console.error('Search input not found');
+    return;
+  }
 
   searchInput.addEventListener('input', handleSearch);
+  console.log('Search functionality initialized');
 }
 
 /**
@@ -210,97 +238,102 @@ function setupAnimations() {
     el.style.animationPlayState = 'paused';
     observer.observe(el);
   });
+
+  console.log('Animations initialized');
 }
 
 /**
- * Handle smooth scrolling for anchor links
+ * Setup navigation and page transitions
  */
-document.addEventListener('click', (event) => {
-  if (event.target.matches('a[href^="#"]')) {
-    event.preventDefault();
-    const targetId = event.target.getAttribute('href').substring(1);
-    const targetElement = document.getElementById(targetId);
+function setupNavigation() {
+  // Handle smooth scrolling for anchor links
+  document.addEventListener('click', (event) => {
+    const target = event.target.closest('a');
+    if (!target) return;
+
+    const href = target.getAttribute('href');
     
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+    // Handle internal anchor links
+    if (href && href.startsWith('#')) {
+      event.preventDefault();
+      const targetId = href.substring(1);
+      const targetElement = document.getElementById(targetId);
+      
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+      return;
+    }
+
+    // Handle tag links with page transitions
+    if (target.classList.contains('tag-link') || target.classList.contains('tag-element')) {
+      if (href && href.endsWith('.html') && !href.startsWith('http')) {
+        event.preventDefault();
+        navigateWithTransition(href);
+      }
+    }
+  });
+
+  console.log('Navigation initialized');
+}
+
+/**
+ * Navigate with page transition
+ */
+function navigateWithTransition(url) {
+  if (isTransitioning) return;
+  
+  isTransitioning = true;
+  
+  if (pageTransition) {
+    pageTransition.classList.add('active');
+    
+    setTimeout(() => {
+      window.location.href = url;
+    }, 500);
+  } else {
+    window.location.href = url;
+  }
+}
+
+/**
+ * Scroll to top function
+ */
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+/**
+ * Handle page visibility change to reset transitions
+ */
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    isTransitioning = false;
+    if (pageTransition) {
+      pageTransition.classList.remove('active');
     }
   }
 });
 
+/**
+ * Handle page load to reset transitions
+ */
+window.addEventListener('pageshow', () => {
+  isTransitioning = false;
+  if (pageTransition) {
+    pageTransition.classList.remove('active');
+  }
+});
+
 // Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', init);
-
-// Add this at the end of your app.js file
-
-// Create page transition element
-function createPageTransition() {
-  // Check if it already exists
-  if (!document.querySelector('.page-transition')) {
-    const pageTransition = document.createElement('div');
-    pageTransition.className = 'page-transition';
-    document.body.appendChild(pageTransition);
-  }
-}
-
-// Set up tag link click handlers
-function setupTagClickHandlers() {
-  // Create the transition element
-  createPageTransition();
-  
-  // Get all tag links
-  const tagLinks = document.querySelectorAll('.tag-link, .tag-element');
-  
-  tagLinks.forEach(link => {
-    // Remove any existing listeners first to prevent duplicates
-    link.removeEventListener('click', handleTagClick);
-    // Add new click listener
-    link.addEventListener('click', handleTagClick);
-  });
-}
-
-// Handle tag click event
-function handleTagClick(e) {
-  const href = this.getAttribute('href');
-  
-  // Only handle links to HTML files (not external links)
-  if (href && !href.startsWith('http') && href.endsWith('.html')) {
-    e.preventDefault();
-    
-    // Get the transition element
-    const pageTransition = document.querySelector('.page-transition');
-    
-    // Activate the transition
-    if (pageTransition) {
-      pageTransition.classList.add('active');
-      
-      // Navigate after transition completes
-      setTimeout(() => {
-        window.location.href = href;
-      }, 500); // Match this to your CSS transition time
-    } else {
-      // Fallback if transition element doesn't exist
-      window.location.href = href;
-    }
-  }
-}
-
-// Modify your initApp function to include setupTagClickHandlers
-function initApp() {
-  createCategories();
-  createAlphabeticalList();
-  setupSearch();
-  setupSmoothScrolling();
-  setupIntersectionObserver();
-  setupTagClickHandlers(); // Add this line
-}
-
-// If the page is already loaded, set up the handlers immediately
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-  setTimeout(setupTagClickHandlers, 1);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
 } else {
-  // Otherwise wait for DOMContentLoaded
-  document.addEventListener('DOMContentLoaded', setupTagClickHandlers);
+  init();
 }
