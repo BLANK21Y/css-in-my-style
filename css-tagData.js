@@ -336,3 +336,6 @@ const tagData = {
     }
   ]
 };
+
+// Log that the data has been loaded
+console.log('CSS Tag Data loaded successfully:', tagData.categories.length, 'categories');
