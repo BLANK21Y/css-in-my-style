@@ -60,7 +60,7 @@
 
 html {
   font-size: var(--font-size-base);
-  -webkit-scroll-behavior: smooth; /* Vendor prefix for Safari */
+  -webkit-scroll-behavior: smooth;
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
 }
@@ -172,7 +172,7 @@ section {
 
 @media (max-width: 767px) {
   .logo-container {
-    margin-left: 90px; /* Space for the back button */
+    margin-left: 90px;
     margin-right: auto;
     width: calc(100% - 90px);
     justify-content: center;
@@ -233,18 +233,6 @@ section {
   background-color: rgba(255, 255, 255, 0.2);
   color: var(--color-white);
   font-size: 0.9rem;
-}
-
-#search-input::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-#search-input::-moz-placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-#search-input:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.7);
 }
 
 #search-input::placeholder {
@@ -426,7 +414,7 @@ section {
   width: 100%;
 }
 
-.alphabetical-container .tag-list {
+.alphabetical-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: var(--space-2);
@@ -513,7 +501,6 @@ section {
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
-  -webkit-animation: fadeIn 0.6s ease-out forwards;
   animation: fadeIn 0.6s ease-out forwards;
 }
 
@@ -529,22 +516,18 @@ section {
 }
 
 .delay-100 {
-  -webkit-animation-delay: 100ms;
   animation-delay: 100ms;
 }
 
 .delay-200 {
-  -webkit-animation-delay: 200ms;
   animation-delay: 200ms;
 }
 
 .delay-300 {
-  -webkit-animation-delay: 300ms;
   animation-delay: 300ms;
 }
 
 .delay-400 {
-  -webkit-animation-delay: 400ms;
   animation-delay: 400ms;
 }
 
@@ -566,10 +549,28 @@ section {
   z-index: 9999;
   transform: translateY(100%);
   transition: transform 0.5s ease-in-out;
-  pointer-events: none; /* Allow clicks through when not active */
+  pointer-events: none;
 }
 
 .page-transition.active {
   transform: translateY(0);
-  pointer-events: all; /* Block clicks when active */
+  pointer-events: all;
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 768px) {
+  .categories-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .alphabetical-list {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: var(--space-1);
+  }
+  
+  .tag-element {
+    font-size: 0.75rem;
+    min-height: 35px;
+    padding: var(--space-1);
+  }
 }
