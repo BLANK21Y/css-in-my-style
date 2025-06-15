@@ -320,6 +320,7 @@ section {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-4);
+  min-height: 200px; /* Ensure minimum height for debugging */
 }
 
 @media (min-width: 640px) {
@@ -341,6 +342,7 @@ section {
   box-shadow: var(--shadow-md);
   transition: transform var(--transition-normal) ease, box-shadow var(--transition-normal) ease;
   height: 100%;
+  min-height: 250px;
 }
 
 .category-card:hover {
@@ -362,36 +364,41 @@ section {
 .category-header p {
   margin: var(--space-1) 0 0;
   font-size: 0.875rem;
+  opacity: 0.9;
 }
 
 .category-body {
   padding: var(--space-3);
-  text-align: center;
 }
 
 .tag-list {
   list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: var(--space-2);
 }
 
 .tag-item {
-  margin-bottom: var(--space-2);
   width: 100%;
-  text-align: center;
 }
 
 .tag-link {
-  display: inline-block;
+  display: block;
   padding: var(--space-2);
   border-radius: var(--border-radius-sm);
-  transition: background-color var(--transition-fast) ease;
+  transition: all var(--transition-fast) ease;
   cursor: pointer;
+  text-align: center;
+  background-color: var(--color-light);
+  border: 1px solid transparent;
 }
 
 .tag-link:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
 }
 
 .tag-link:focus {
@@ -403,6 +410,11 @@ section {
   font-family: monospace;
   color: var(--color-primary);
   font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.tag-link:hover .tag-name {
+  color: var(--color-white);
 }
 
 /* Alphabetical Section */
@@ -420,6 +432,7 @@ section {
   gap: var(--space-2);
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .tag-element {
@@ -438,12 +451,14 @@ section {
   text-decoration: none;
   font-size: 0.875rem;
   cursor: pointer;
+  border: 1px solid transparent;
 }
 
 .tag-element:hover {
   background-color: var(--color-primary);
   color: var(--color-white);
   transform: translateY(-2px);
+  border-color: var(--color-primary);
 }
 
 .tag-element:focus {
@@ -536,6 +551,10 @@ section {
   padding: var(--space-4);
   text-align: center;
   color: var(--color-secondary);
+  grid-column: 1 / -1;
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Page Transition */
@@ -561,6 +580,11 @@ section {
 @media (max-width: 768px) {
   .categories-grid {
     grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+  
+  .category-card {
+    min-height: 200px;
   }
   
   .alphabetical-list {
@@ -573,4 +597,14 @@ section {
     min-height: 35px;
     padding: var(--space-1);
   }
+  
+  .tag-name {
+    font-size: 0.8rem;
+  }
+}
+
+/* Debug styles - remove after testing */
+.debug {
+  border: 2px solid red !important;
+  background-color: yellow !important;
 }
