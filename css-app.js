@@ -1,371 +1,290 @@
-// CSS Property Explorer Application
-console.log('App script loading...');
+/**
+ * CSS Property Explorer Application JavaScript
+ * Handles dynamic content loading, search, filtering, and interactions
+ */
 
-// Global variables
-let categoriesContainer;
-let alphabeticalContainer;
-let searchInput;
-let allProperties = [];
-let isTransitioning = false;
-let pageTransition;
+// DOM Elements
+const categoriesContainer = document.getElementById('categories-container');
+const alphabeticalContainer = document.getElementById('alphabetical-container');
+const searchInput = document.getElementById('search-input');
 
-// Initialize everything when page loads
+// Cache DOM elements and property data
+let allTagElements = [];
+let categoryCards = [];
+let allTagsMap = new Map();
+
+/**
+ * Initialize the application
+ */
 function initApp() {
-  console.log('Initializing app...');
-  
-  // Get DOM elements
-  categoriesContainer = document.getElementById('categories-container');
-  alphabeticalContainer = document.getElementById('alphabetical-list');
-  searchInput = document.getElementById('search-input');
-  pageTransition = document.querySelector('.page-transition');
-  
-  console.log('DOM elements:', {
-    categories: !!categoriesContainer,
-    alphabetical: !!alphabeticalContainer,
-    search: !!searchInput,
-    transition: !!pageTransition
-  });
-  
-  // Check if data is loaded
-  if (typeof tagData === 'undefined') {
-    console.error('tagData not found!');
-    showError('Data not loaded');
-    return;
-  }
-  
-  console.log('Data available:', tagData);
-  
-  // Load content
-  loadCategories();
-  loadAlphabetical();
+  createCategories();
+  createAlphabeticalList();
   setupSearch();
-  setupNavigation();
-  setupTransitionHandling();
-  
-  console.log('App initialized successfully');
+  setupSmoothScrolling();
+  setupIntersectionObserver();
 }
 
-// Load categories
-function loadCategories() {
-  if (!categoriesContainer) {
-    console.error('Categories container not found');
-    return;
-  }
-  
-  console.log('Loading categories...');
-  
-  // Clear loading message
-  categoriesContainer.innerHTML = '';
-  
-  // Create category cards
+/**
+ * Creates and populates all category cards with properties
+ */
+function createCategories() {
   tagData.categories.forEach((category, index) => {
-    const card = createCategoryCard(category);
-    categoriesContainer.appendChild(card);
-  });
-  
-  console.log('Categories loaded:', tagData.categories.length);
-}
-
-// Create category card
-function createCategoryCard(category) {
-  const card = document.createElement('div');
-  card.className = 'category-card';
-  
-  // Create tags HTML
-  const tagsHTML = category.tags.map(tag => 
-    `<li class="tag-item">
-       <a href="${tag.name.toLowerCase()}.html" class="tag-link" data-tag="${tag.name}">
-         <span class="tag-name">${tag.name}</span>
-       </a>
-     </li>`
-  ).join('');
-  
-  card.innerHTML = `
-    <div class="category-header">
+    // Create category card
+    const categoryCard = document.createElement('div');
+    categoryCard.className = `category-card fade-in delay-${(index % 4) * 100}`;
+    categoryCard.dataset.category = category.name;
+    
+    // Category header
+    const categoryHeader = document.createElement('div');
+    categoryHeader.className = 'category-header';
+    categoryHeader.innerHTML = `
       <h3>${category.name}</h3>
       <p>${category.description}</p>
-    </div>
-    <div class="category-body">
-      <ul class="tag-list">
-        ${tagsHTML}
-      </ul>
-    </div>
-  `;
-  
-  return card;
+    `;
+    
+    // Category body with property list
+    const categoryBody = document.createElement('div');
+    categoryBody.className = 'category-body';
+    
+    const tagList = document.createElement('ul');
+    tagList.className = 'tag-list';
+    
+    category.tags.forEach(tag => {
+      // Store property in global map with references to categories
+      if (!allTagsMap.has(tag.name)) {
+        allTagsMap.set(tag.name, {
+          ...tag,
+          categories: [category.name]
+        });
+      } else {
+        allTagsMap.get(tag.name).categories.push(category.name);
+      }
+      
+      const tagItem = document.createElement('li');
+      tagItem.className = 'tag-item';
+      
+      const tagLink = document.createElement('a');
+      // Link to MDN documentation
+      tagLink.href = `https://developer.mozilla.org/en-US/docs/Web/CSS/${tag.name}`;
+      tagLink.className = 'tag-link';
+      tagLink.dataset.tag = tag.name;
+      tagLink.dataset.category = category.name;
+      tagLink.target = '_blank';
+      tagLink.rel = 'noopener noreferrer';
+      tagLink.innerHTML = `<span class="tag-name">${tag.name}</span>`;
+      
+      tagItem.appendChild(tagLink);
+      tagList.appendChild(tagItem);
+    });
+    
+    categoryBody.appendChild(tagList);
+    categoryCard.appendChild(categoryHeader);
+    categoryCard.appendChild(categoryBody);
+    categoriesContainer.appendChild(categoryCard);
+    
+    // Store reference to category card
+    categoryCards.push(categoryCard);
+  });
 }
 
-// Load alphabetical list
-function loadAlphabetical() {
-  if (!alphabeticalContainer) {
-    console.error('Alphabetical container not found');
-    return;
-  }
-  
-  console.log('Loading alphabetical list...');
-  
-  // Collect all properties
-  allProperties = [];
-  tagData.categories.forEach(category => {
-    category.tags.forEach(tag => {
-      allProperties.push({
-        name: tag.name,
-        description: tag.description,
-        category: category.name
-      });
-    });
-  });
+/**
+ * Creates alphabetical list of all properties
+ */
+function createAlphabeticalList() {
+  // Extract all unique properties
+  const allTags = Array.from(allTagsMap.values());
   
   // Sort alphabetically
-  allProperties.sort((a, b) => a.name.localeCompare(b.name));
+  allTags.sort((a, b) => a.name.localeCompare(b.name));
   
-  // Clear and add items
-  alphabeticalContainer.innerHTML = '';
-  allProperties.forEach(property => {
-    const item = createAlphabeticalItem(property);
-    alphabeticalContainer.appendChild(item);
+  // Ensure tag-list is a <ul> for grid layout
+  alphabeticalContainer.className = 'tag-list';
+  
+  // Create property elements
+  allTags.forEach(tag => {
+    const tagItem = document.createElement('li');
+    const tagElement = document.createElement('a');
+    // Link to MDN documentation
+    tagElement.href = `https://developer.mozilla.org/en-US/docs/Web/CSS/${tag.name}`;
+    tagElement.className = 'tag-element';
+    tagElement.dataset.tag = tag.name;
+    tagElement.target = '_blank';
+    tagElement.rel = 'noopener noreferrer';
+    tagElement.innerHTML = `${tag.name}`;
+    
+    tagItem.appendChild(tagElement);
+    alphabeticalContainer.appendChild(tagItem);
+    allTagElements.push(tagElement);
   });
-  
-  console.log('Alphabetical list loaded:', allProperties.length);
 }
 
-// Create alphabetical item
-function createAlphabeticalItem(property) {
-  const li = document.createElement('li');
-  const link = document.createElement('a');
-  
-  link.href = `${property.name.toLowerCase()}.html`;
-  link.className = 'tag-element';
-  link.textContent = property.name;
-  link.title = `${property.description} (${property.category})`;
-  link.setAttribute('data-tag', property.name);
-  
-  li.appendChild(link);
-  return li;
-}
-
-// Setup search
+/**
+ * Sets up search functionality
+ */
 function setupSearch() {
-  if (!searchInput) return;
+  searchInput.addEventListener('input', debounce(handleSearch, 200));
+}
+
+/**
+ * Handle search input and filter properties
+ */
+function handleSearch() {
+  const searchTerm = searchInput.value.trim().toLowerCase();
   
-  searchInput.addEventListener('input', function(e) {
-    const query = e.target.value.toLowerCase().trim();
-    
-    if (query === '') {
-      loadCategories();
-      loadAlphabetical();
-    } else {
-      filterContent(query);
-    }
+  // Hide or show properties in alphabetical list
+  let matchFound = false;
+  
+  // Filter alphabetical properties
+  allTagElements.forEach(tagEl => {
+    const tagName = tagEl.dataset.tag.toLowerCase();
+    const isVisible = tagName.includes(searchTerm);
+    tagEl.parentElement.style.display = isVisible ? 'block' : 'none';
+    if (isVisible) matchFound = true;
   });
-}
-
-// Filter content
-function filterContent(query) {
-  // Filter categories
-  const filteredCategories = tagData.categories.map(category => {
-    const filteredTags = category.tags.filter(tag => 
-      tag.name.toLowerCase().includes(query) || 
-      tag.description.toLowerCase().includes(query)
-    );
-    return filteredTags.length > 0 ? { ...category, tags: filteredTags } : null;
-  }).filter(Boolean);
   
-  // Update categories
-  categoriesContainer.innerHTML = '';
-  if (filteredCategories.length === 0) {
-    categoriesContainer.innerHTML = '<div class="no-results">No categories found</div>';
-  } else {
-    filteredCategories.forEach(category => {
-      const card = createCategoryCard(category);
-      categoriesContainer.appendChild(card);
-    });
-  }
-  
-  // Filter alphabetical
-  const filteredProperties = allProperties.filter(property =>
-    property.name.toLowerCase().includes(query) ||
-    property.description.toLowerCase().includes(query)
-  );
-  
-  // Update alphabetical
-  alphabeticalContainer.innerHTML = '';
-  if (filteredProperties.length === 0) {
-    alphabeticalContainer.innerHTML = '<div class="no-results">No properties found</div>';
-  } else {
-    filteredProperties.forEach(property => {
-      const item = createAlphabeticalItem(property);
-      alphabeticalContainer.appendChild(item);
-    });
-  }
-}
-
-// Setup navigation
-function setupNavigation() {
-  document.addEventListener('click', function(e) {
-    const link = e.target.closest('a');
-    if (!link) return;
+  // Filter category cards and their properties
+  categoryCards.forEach(card => {
+    const tagLinks = card.querySelectorAll('.tag-item');
+    let hasVisibleTags = false;
     
-    const href = link.getAttribute('href');
-    
-    // Handle anchor links (smooth scrolling)
-    if (href && href.startsWith('#')) {
-      e.preventDefault();
-      const target = document.querySelector(href);
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
+    tagLinks.forEach(item => {
+      const link = item.querySelector('.tag-link');
+      const tagName = link.dataset.tag.toLowerCase();
+      if (tagName.includes(searchTerm)) {
+        item.style.display = 'block';
+        hasVisibleTags = true;
+      } else {
+        item.style.display = 'none';
       }
-      return;
-    }
+    });
     
-    // Handle back button clicks - NO TRANSITION
-    if (link.classList.contains('back-button')) {
-      console.log('Back button clicked - allowing normal navigation');
-      // Let the default navigation happen without any interference
-      return;
+    // Show/hide the category based on whether it has visible properties
+    card.style.display = hasVisibleTags ? 'block' : 'none';
+  });
+  
+  // Check if we need to show a "no results" message in alphabetical section
+  const alphabeticalNoResults = document.getElementById('alphabetical-no-results');
+  if (!matchFound) {
+    if (!alphabeticalNoResults) {
+      const noResults = document.createElement('div');
+      noResults.id = 'alphabetical-no-results';
+      noResults.className = 'no-results';
+      noResults.textContent = `No properties found matching "${searchInput.value}"`;
+      alphabeticalContainer.appendChild(noResults);
     }
-    
-    // Handle tag links with transition
-    if (link.classList.contains('tag-link') || link.classList.contains('tag-element')) {
-      if (href && href.endsWith('.html') && !href.startsWith('http')) {
+  } else if (alphabeticalNoResults) {
+    alphabeticalNoResults.remove();
+  }
+}
+
+/**
+ * Sets up smooth scrolling for anchor links
+ */
+function setupSmoothScrolling() {
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      if (this.getAttribute('href').length > 1) { // Skip if it's just "#"
         e.preventDefault();
-        console.log('Tag clicked, starting transition to:', href);
-        navigateWithTransition(href);
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
       }
-    }
+    });
   });
 }
 
-// Setup transition handling
-function setupTransitionHandling() {
-  // Reset transition on page load/show
-  window.addEventListener('pageshow', function(event) {
-    console.log('Page show event - resetting transition');
-    resetTransition();
-  });
-  
-  // Handle browser back/forward
-  window.addEventListener('popstate', function(event) {
-    console.log('Popstate event - resetting transition');
-    resetTransition();
-  });
-  
-  // Handle visibility change
-  document.addEventListener('visibilitychange', function() {
-    if (document.visibilityState === 'visible') {
-      console.log('Page visible - resetting transition');
-      resetTransition();
-    }
-  });
-  
-  // Handle focus
-  window.addEventListener('focus', function() {
-    console.log('Window focused - resetting transition');
-    resetTransition();
-  });
-  
-  // Initial reset
-  resetTransition();
-  
-  console.log('Transition handling setup complete');
-}
-
-// Navigate with transition
-function navigateWithTransition(url) {
-  if (isTransitioning) {
-    console.log('Already transitioning, ignoring click');
-    return;
-  }
-  
-  if (!pageTransition) {
-    console.log('No transition element found, navigating directly');
-    window.location.href = url;
-    return;
-  }
-  
-  console.log('Starting page transition to:', url);
-  isTransitioning = true;
-  
-  // Add transitioning class to body
-  document.body.classList.add('transitioning');
-  
-  // Activate transition
-  pageTransition.classList.add('active');
-  
-  // Navigate after transition animation
-  setTimeout(() => {
-    console.log('Navigating to:', url);
-    window.location.href = url;
-  }, 600); // Match CSS transition duration
-  
-  // Fallback timeout to reset if something goes wrong
-  setTimeout(() => {
-    if (isTransitioning) {
-      console.log('Transition timeout - resetting');
-      resetTransition();
-    }
-  }, 3000);
-}
-
-// Reset transition
-function resetTransition() {
-  if (pageTransition) {
-    pageTransition.classList.remove('active');
-  }
-  document.body.classList.remove('transitioning');
-  isTransitioning = false;
-  console.log('Transition state reset');
-}
-
-// Show error
-function showError(message) {
-  if (categoriesContainer) {
-    categoriesContainer.innerHTML = `<div class="error">Error: ${message}</div>`;
-  }
-}
-
-// Scroll to top
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// Handle animations
-function setupAnimations() {
-  // Add intersection observer for fade-in animations
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  };
-
+/**
+ * Sets up intersection observer for animation on scroll
+ */
+function setupIntersectionObserver() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.style.animationPlayState = 'running';
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
       }
     });
-  }, observerOptions);
+  }, { threshold: 0.1 });
 
-  // Observe all fade-in elements
   document.querySelectorAll('.fade-in').forEach(el => {
-    el.style.animationPlayState = 'paused';
     observer.observe(el);
   });
 }
 
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initApp);
-} else {
-  // DOM already loaded
-  initApp();
+/**
+ * Debounce function to limit the rate at which a function can fire
+ * @param {Function} func - The function to debounce
+ * @param {number} wait - The debounce wait time in milliseconds
+ * @returns {Function} - Debounced function
+ */
+function debounce(func, wait) {
+  let timeout;
+  return function(...args) {
+    const context = this;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(context, args), wait);
+  };
 }
 
-// Fallback initialization
-setTimeout(() => {
-  if (typeof tagData !== 'undefined' && categoriesContainer && categoriesContainer.children.length === 0) {
-    console.log('Fallback initialization triggered');
-    initApp();
-  }
-}, 100);
+// Initialize the application when DOM is fully loaded
+document.addEventListener('DOMContentLoaded', initApp);
 
-console.log('App script loaded');
+// Create page transition element
+function createPageTransition() {
+  // Check if it already exists
+  if (!document.querySelector('.page-transition')) {
+    const pageTransition = document.createElement('div');
+    pageTransition.className = 'page-transition';
+    document.body.appendChild(pageTransition);
+  }
+}
+
+// Set up property link click handlers
+function setupTagClickHandlers() {
+  // Create the transition element
+  createPageTransition();
+  
+  // Get all property links
+  const tagLinks = document.querySelectorAll('.tag-link, .tag-element');
+  
+  tagLinks.forEach(link => {
+    // Remove any existing listeners first to prevent duplicates
+    link.removeEventListener('click', handleTagClick);
+    // Add new click listener
+    link.addEventListener('click', handleTagClick);
+  });
+}
+
+// Handle property click event
+function handleTagClick(e) {
+  const href = this.getAttribute('href');
+  
+  // Only handle links to MDN (external links)
+  if (href && href.startsWith('https://developer.mozilla.org')) {
+    // Let the browser handle external links normally
+    return true;
+  }
+}
+
+// Modify your initApp function to include setupTagClickHandlers
+function initApp() {
+  createCategories();
+  createAlphabeticalList();
+  setupSearch();
+  setupSmoothScrolling();
+  setupIntersectionObserver();
+  setupTagClickHandlers(); // Add this line
+}
+
+// If the page is already loaded, set up the handlers immediately
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  setTimeout(setupTagClickHandlers, 1);
+} else {
+  // Otherwise wait for DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', setupTagClickHandlers);
+}
