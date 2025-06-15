@@ -464,6 +464,56 @@ section {
   color: var(--color-white);
 }
 
+.footer-links a:focus {
+  outline: 2px solid var(--color-white);
+  outline-offset: 2px;
+}
+
+/* Animations */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+/* No Results */
+.no-results {
+  padding: var(--space-4);
+  text-align: center;
+  color: var(--color-secondary);
+  grid-column: 1 / -1;
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
 /* Page Transition */
 .page-transition {
   position: fixed;
@@ -483,11 +533,15 @@ section {
   pointer-events: all;
 }
 
-/* Mobile Optimizations */
+/* Mobile responsiveness improvements */
 @media (max-width: 768px) {
   .categories-grid {
     grid-template-columns: 1fr;
     gap: var(--space-3);
+  }
+  
+  .category-card {
+    min-height: 200px;
   }
   
   .alphabetical-list {
@@ -504,4 +558,10 @@ section {
   .tag-name {
     font-size: 0.8rem;
   }
+}
+
+/* Debug styles - remove after testing */
+.debug {
+  border: 2px solid red !important;
+  background-color: yellow !important;
 }
